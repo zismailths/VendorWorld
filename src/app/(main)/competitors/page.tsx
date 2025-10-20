@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import Image from "next/image";
 import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
@@ -21,6 +21,14 @@ export default function CompetitorsPage() {
   const [selectedOffer, setSelectedOffer] = useState<SellerOffer | null>(
     sellerOffers.find((o) => o.status === "ACTIVE") || null
   );
+  const [refreshKey, setRefreshKey] = useState(0);
+
+  const handleRefresh = useCallback(() => {
+    // In a real app, you'd re-fetch data here.
+    // For now, we just force a re-render.
+    setRefreshKey(prev => prev + 1);
+  }, []);
+
 
   const activeOffers = sellerOffers.filter((o) => o.isSellerOffer && o.status === "ACTIVE");
   
@@ -36,7 +44,7 @@ export default function CompetitorsPage() {
         title="Competitors"
         description="Analyze the competitive landscape for your products."
       >
-        <Button variant="outline">
+        <Button variant="outline" onClick={handleRefresh}>
           <RefreshCw className="mr-2 h-4 w-4" />
           Refresh
         </Button>
@@ -45,7 +53,7 @@ export default function CompetitorsPage() {
           Export
         </Button>
       </PageHeader>
-      <main className="p-6 pt-0 space-y-6">
+      <main className="p-6 pt-0 space-y-6" key={refreshKey}>
         {!selectedOffer && (
              <Card>
                 <CardHeader>
