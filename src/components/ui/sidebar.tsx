@@ -430,25 +430,33 @@ SidebarGroup.displayName = "SidebarGroup"
 
 const SidebarGroupLabel = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> & { asChild?: boolean }
->(({ className, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : "div"
+  React.ComponentProps<"div"> & { asChild?: boolean; children: React.ReactNode }
+>(({ className, asChild = false, children, ...props }, ref) => {
+  const Comp = asChild ? Slot : "div";
+  const { state } = useSidebar();
+
+  if (state === "collapsed") {
+    return (
+      <div className="my-2" {...props}>
+        <Separator />
+      </div>
+    );
+  }
 
   return (
     <Comp
       ref={ref}
       data-sidebar="group-label"
       className={cn(
-        "duration-200 flex h-8 shrink-0 items-center px-2 text-xs font-medium text-sidebar-foreground/70 outline-none ring-sidebar-ring transition-[margin,opa] ease-linear focus-visible:ring-2 [&>svg]:size-4 [&>svg]:shrink-0",
-        "group-data-[collapsible=icon]:mt-2 group-data-[collapsible=icon]:h-auto group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:px-2.5",
-        "group-data-[collapsible=icon]:[&:not(:first-child)]:mt-1",
-        "group-data-[state=expanded]:group-data-[collapsible=icon]:h-8 group-data-[state=expanded]:group-data-[collapsible=icon]:opacity-0",
+        "flex h-8 shrink-0 items-center px-2 text-xs font-medium text-sidebar-foreground/70 outline-none",
         className
       )}
       {...props}
-    />
-  )
-})
+    >
+      {children}
+    </Comp>
+  );
+});
 SidebarGroupLabel.displayName = "SidebarGroupLabel"
 
 const SidebarGroupAction = React.forwardRef<
@@ -765,3 +773,5 @@ export {
   SidebarTrigger,
   useSidebar,
 }
+
+    
