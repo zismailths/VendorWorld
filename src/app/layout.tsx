@@ -3,8 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: 'VendorVerse: Seller\'s Portal',
-  description: 'The premier portal for sellers on VendorVerse.',
+  title: 'VendorWorld: Seller\'s Portal',
+  description: 'The premier portal for sellers on VendorWorld.',
 };
 
 export default function RootLayout({

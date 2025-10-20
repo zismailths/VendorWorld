@@ -22,7 +22,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <div className="flex items-center gap-2">
             <Logo className="size-7 text-sidebar-primary-foreground" />
             <h1 className="font-headline text-lg font-semibold text-sidebar-primary-foreground">
-              VendorVerse
+              VendorWorld
             </h1>
             <SidebarTrigger className="ml-auto" />
           </div>
