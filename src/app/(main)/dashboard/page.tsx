@@ -56,9 +56,7 @@ export default function DashboardPage() {
                 <SalesChart />
             </div>
              <div className="lg:col-span-1">
-                <Link href="/notifications">
-                    <AlertsPanel />
-                </Link>
+                <AlertsPanel />
             </div>
         </div>
          <div className="grid gap-6 lg:grid-cols-3">
