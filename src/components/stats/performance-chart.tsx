@@ -1,3 +1,4 @@
+
 "use client"
 
 import * as React from "react"
@@ -17,10 +18,16 @@ import {
   ChartLegend,
   ChartLegendContent,
 } from "@/components/ui/chart"
-import { stats } from "@/lib/data"
+import { sellerOffers, stats } from "@/lib/data"
+
+const activeCount = sellerOffers.filter(o => o.isSellerOffer && o.status === 'ACTIVE').length;
+const soldCount = sellerOffers.filter(o => o.isSellerOffer && o.status === 'SOLD').length;
+const expiredCount = sellerOffers.filter(o => o.isSellerOffer && o.status === 'EXPIRED').length;
 
 const chartData = [
-  { type: "Sold", count: stats.soldVsWithdrawn.sold, fill: "var(--color-sold)" },
+  { type: "Active", count: activeCount, fill: "var(--color-active)" },
+  { type: "Sold", count: soldCount, fill: "var(--color-sold)" },
+  { type: "Expired", count: expiredCount, fill: "var(--color-expired)" },
   { type: "Withdrawn", count: stats.soldVsWithdrawn.withdrawn, fill: "var(--color-withdrawn)" },
 ]
 
@@ -28,9 +35,17 @@ const chartConfig = {
   count: {
     label: "Count",
   },
+  active: {
+    label: "Active",
+    color: "hsl(var(--chart-1))", // Blue
+  },
   sold: {
     label: "Sold",
-    color: "hsl(var(--chart-1))", // Blue
+    color: "hsl(var(--chart-2))", // Green
+  },
+  expired: {
+    label: "Expired",
+    color: "hsl(var(--muted-foreground))", // Gray
   },
   withdrawn: {
     label: "Withdrawn",
@@ -42,8 +57,8 @@ export function PerformanceChart() {
   return (
     <Card className="flex flex-col">
       <CardHeader>
-        <CardTitle className="font-headline text-xl">Offer Outcomes</CardTitle>
-        <CardDescription>Ratio of sold vs. withdrawn offers</CardDescription>
+        <CardTitle className="font-headline text-xl">Product Status Overview</CardTitle>
+        <CardDescription>A breakdown of all your product offers by status</CardDescription>
       </CardHeader>
       <CardContent className="flex-1 pb-0">
         <ChartContainer
