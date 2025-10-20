@@ -3,7 +3,7 @@
 
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,22 +27,25 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/components/shared/page-header";
 import { laptopModels } from "@/lib/data";
-import { QrCode, Upload, ListPlus, ArrowLeft, Bot } from "lucide-react";
+import { QrCode, Upload, ListPlus, ArrowLeft, Bot, Trash2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 import { Separator } from "@/components/ui/separator";
 import type { SellerOffer } from "@/lib/types";
+import { cn } from "@/lib/utils";
 
 const offerFormSchema = z.object({
   modelId: z.string({ required_error: "Please select a laptop model." }),
-  uniqueSerialNumber: z.string().min(6, "Serial number must be at least 6 characters."),
+  serialNumbers: z.array(z.object({
+    value: z.string().min(6, "Serial number must be at least 6 characters."),
+  })).min(1, "At least one serial number is required."),
   sellerPrice: z.coerce.number().positive("Price must be a positive number."),
   quantity: z.coerce.number().int().positive("Quantity must be at least 1."),
   ram: z.string({ required_error: "Please select RAM configuration." }),
   storage: z.string({ required_error: "Please select storage capacity." }),
   gpu: z.string().min(1, "Please specify the GPU."),
   screenSize: z.string({ required_error: "Please select a screen size." }),
-  images: z.any().optional(), // In a real app, this would be more specific
+  images: z.any().optional(),
   notes: z.string().optional(),
 });
 
@@ -50,16 +53,17 @@ type OfferFormValues = z.infer<typeof offerFormSchema>;
 
 type CopiedOffer = SellerOffer & { ram?: string, storage?: string, gpu?: string, screenSize?: string };
 
-const defaultValues: Partial<OfferFormValues> = {
+const defaultValues: OfferFormValues = {
   modelId: "",
-  uniqueSerialNumber: "",
-  sellerPrice: undefined, // Let placeholder handle this
+  serialNumbers: [{ value: "" }],
+  sellerPrice: 0,
   quantity: 1,
   ram: "",
   storage: "",
   gpu: "",
   screenSize: "",
   notes: "",
+  images: undefined,
 };
 
 export default function NewOfferPage() {
@@ -70,7 +74,35 @@ export default function NewOfferPage() {
   const form = useForm<OfferFormValues>({
     resolver: zodResolver(offerFormSchema),
     defaultValues,
+    mode: "onChange",
   });
+
+  const { fields, append, remove, replace } = useFieldArray({
+    control: form.control,
+    name: "serialNumbers",
+  });
+
+  const quantity = form.watch("quantity");
+
+  useState(() => {
+    const subscription = form.watch((value, { name }) => {
+      if (name === "quantity") {
+        const newQuantity = Number(value.quantity) || 0;
+        const currentCount = fields.length;
+        if (newQuantity > currentCount) {
+          for (let i = currentCount; i < newQuantity; i++) {
+            append({ value: "" });
+          }
+        } else if (newQuantity < currentCount) {
+          for (let i = currentCount; i > newQuantity; i--) {
+            remove(i - 1);
+          }
+        }
+      }
+    });
+    return () => subscription.unsubscribe();
+  }, [form, fields, append, remove]);
+
 
   function onSubmit(data: OfferFormValues) {
     console.log("New offer submitted:", data);
@@ -78,7 +110,6 @@ export default function NewOfferPage() {
       title: "Offer Submitted!",
       description: "Your new offer has been successfully listed.",
     });
-    // Clear copied data after submission
     localStorage.removeItem('copiedOffer');
     router.push('/offers');
   }
@@ -90,9 +121,9 @@ export default function NewOfferPage() {
         const copiedOffer: CopiedOffer = JSON.parse(copiedOfferString);
         
         form.reset({
-          modelId: copiedOffer.modelId,
-          sellerPrice: copiedOffer.price,
-          uniqueSerialNumber: "", // Always clear serial number for a new entry
+          modelId: copiedOffer.modelId || "",
+          sellerPrice: copiedOffer.price || 0,
+          serialNumbers: [{ value: "" }],
           quantity: 1,
           ram: copiedOffer.ram || "",
           storage: copiedOffer.storage || "",
@@ -194,23 +225,47 @@ export default function NewOfferPage() {
                 />
                 <FormField
                     control={form.control}
-                    name="uniqueSerialNumber"
+                    name="quantity"
                     render={({ field }) => (
                     <FormItem>
-                        <FormLabel>Unique Serial Number</FormLabel>
-                        <div className="flex gap-2">
+                        <FormLabel>Quantity</FormLabel>
                         <FormControl>
-                            <Input placeholder="e.g. C02G8R2JLV2F" {...field} />
+                            <Input type="number" min={1} placeholder="e.g. 1" {...field} onChange={event => field.onChange(+event.target.value)} />
                         </FormControl>
-                        <Button variant="outline" type="button" size="icon">
-                            <QrCode className="h-4 w-4" />
-                            <span className="sr-only">Scan QR code</span>
-                        </Button>
-                        </div>
                         <FormMessage />
                     </FormItem>
                     )}
                 />
+                </div>
+            </div>
+            
+            <Separator />
+            
+            <div className={cn("space-y-4", quantity > 0 ? "block" : "hidden")}>
+                <h3 className="text-lg font-medium text-foreground">Serial Numbers</h3>
+                <div className="grid md:grid-cols-2 gap-x-8 gap-y-4">
+                    {fields.map((field, index) => (
+                         <FormField
+                            key={field.id}
+                            control={form.control}
+                            name={`serialNumbers.${index}.value`}
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel className="text-muted-foreground">Serial Number #{index + 1}</FormLabel>
+                                <div className="flex gap-2">
+                                <FormControl>
+                                    <Input placeholder="e.g. C02G8R2JLV2F" {...field} />
+                                </FormControl>
+                                <Button variant="outline" type="button" size="icon">
+                                    <QrCode className="h-4 w-4" />
+                                    <span className="sr-only">Scan QR code</span>
+                                </Button>
+                                </div>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                    ))}
                 </div>
             </div>
 
@@ -327,19 +382,6 @@ export default function NewOfferPage() {
                         )}
                     />
                     
-                    <FormField
-                        control={form.control}
-                        name="quantity"
-                        render={({ field }) => (
-                        <FormItem>
-                            <FormLabel>Quantity</FormLabel>
-                            <FormControl>
-                                <Input type="number" placeholder="e.g. 10" {...field} onChange={event => field.onChange(+event.target.value)} />
-                            </FormControl>
-                            <FormMessage />
-                        </FormItem>
-                        )}
-                    />
 
                     <div className="md:col-span-2">
                         <FormField
@@ -409,3 +451,5 @@ export default function NewOfferPage() {
     </>
   );
 }
+
+    
