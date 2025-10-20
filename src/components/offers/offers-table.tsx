@@ -205,8 +205,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                   </TableRow>
                   <CollapsibleContent asChild>
                       <TableRow className='bg-muted/50'>
-                          <TableCell></TableCell>
-                          <TableCell colSpan={8} className="p-0">
+                          <TableCell colSpan={9} className="p-0">
                               <Table>
                                   <TableHeader>
                                       <TableRow className="hover:bg-transparent">
@@ -226,6 +225,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                                                 <div className="text-sm text-muted-foreground font-mono">
                                                     {formatSerialNumbers(offer.serialNumbers)}
                                                 </div>
+
                                             </TableCell>
                                             <TableCell className="text-sm text-muted-foreground">
                                                 {format(new Date(offer.createdAt), "dd MMM yyyy")}
