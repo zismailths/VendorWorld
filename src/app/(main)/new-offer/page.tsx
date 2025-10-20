@@ -51,9 +51,15 @@ type OfferFormValues = z.infer<typeof offerFormSchema>;
 type CopiedOffer = SellerOffer & { ram?: string, storage?: string, gpu?: string, screenSize?: string };
 
 const defaultValues: Partial<OfferFormValues> = {
+  modelId: "",
   uniqueSerialNumber: "",
-  notes: "",
+  sellerPrice: undefined, // Let placeholder handle this
   quantity: 1,
+  ram: "",
+  storage: "",
+  gpu: "",
+  screenSize: "",
+  notes: "",
 };
 
 export default function NewOfferPage() {
@@ -114,6 +120,7 @@ export default function NewOfferPage() {
         title: "Nothing to Auto-fill",
         description: "No copied data found. Please copy an offer first.",
       });
+      form.reset(defaultValues);
     }
   }
 
@@ -312,7 +319,7 @@ export default function NewOfferPage() {
                             <div className="relative">
                             <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">Rs</span>
                             <FormControl>
-                                <Input type="number" placeholder="e.g. 150000" className="pl-8" {...field} />
+                                <Input type="number" placeholder="e.g. 150000" className="pl-8" {...field} onChange={event => field.onChange(+event.target.value)} />
                             </FormControl>
                             </div>
                             <FormMessage />
@@ -327,7 +334,7 @@ export default function NewOfferPage() {
                         <FormItem>
                             <FormLabel>Quantity</FormLabel>
                             <FormControl>
-                                <Input type="number" placeholder="e.g. 10" {...field} />
+                                <Input type="number" placeholder="e.g. 10" {...field} onChange={event => field.onChange(+event.target.value)} />
                             </FormControl>
                             <FormMessage />
                         </FormItem>
