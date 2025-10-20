@@ -133,6 +133,12 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
     }).format(value);
   };
 
+  const formatSerialNumbers = (serials: string[]) => {
+    if (!serials || serials.length === 0) return "N/A";
+    if (serials.length === 1) return serials[0];
+    return `${serials[0]} ... ${serials[serials.length - 1]}`;
+  }
+
   return (
     <TooltipProvider>
       <div className="border rounded-lg">
@@ -219,8 +225,8 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                                     {group.offers.map((offer) => (
                                         <TableRow key={offer.id} className="hover:bg-muted">
                                             <TableCell>
-                                                <div className="text-sm text-muted-foreground font-mono flex flex-col">
-                                                  {offer.serialNumbers.map(serial => <span key={serial}>{serial}</span>)}
+                                                <div className="text-sm text-muted-foreground font-mono">
+                                                    {formatSerialNumbers(offer.serialNumbers)}
                                                 </div>
                                             </TableCell>
                                             <TableCell className="text-sm text-muted-foreground">
@@ -363,4 +369,6 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
     </TooltipProvider>
   );
 }
+    
+
     
