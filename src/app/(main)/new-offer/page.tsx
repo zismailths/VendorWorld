@@ -48,6 +48,8 @@ const offerFormSchema = z.object({
 
 type OfferFormValues = z.infer<typeof offerFormSchema>;
 
+type CopiedOffer = SellerOffer & { ram?: string, storage?: string, gpu?: string, screenSize?: string };
+
 const defaultValues: Partial<OfferFormValues> = {
   uniqueSerialNumber: "",
   notes: "",
@@ -79,25 +81,20 @@ export default function NewOfferPage() {
     const copiedOfferString = localStorage.getItem('copiedOffer');
     if (copiedOfferString) {
       try {
-        const copiedOffer: SellerOffer & { ram?: string, storage?: string, gpu?: string, screenSize?: string } = JSON.parse(copiedOfferString);
+        const copiedOffer: CopiedOffer = JSON.parse(copiedOfferString);
         
-        // This is a basic mapping. A real app might need more complex logic.
-        // Also assuming the copied offer has all the necessary fields.
-        // For this example, we'll map what we can.
         form.reset({
           modelId: copiedOffer.modelId,
           sellerPrice: copiedOffer.price,
           uniqueSerialNumber: "", // Always clear serial number for a new entry
-          quantity: 1, // Default to 1
-          // The following are not in SellerOffer type. We assume they might exist or we set defaults.
-          // This part of the logic is speculative based on the form.
-          // In a real app, the copied object should contain all needed fields.
+          quantity: 1,
           ram: copiedOffer.ram || "",
           storage: copiedOffer.storage || "",
           gpu: copiedOffer.gpu || "",
           screenSize: copiedOffer.screenSize || "",
           notes: `Copied from offer ${copiedOffer.serial}`,
         });
+
         toast({
           title: "Form Auto-filled",
           description: `Details from ${copiedOffer.model} have been filled in. Please provide a new serial number.`,
@@ -113,10 +110,9 @@ export default function NewOfferPage() {
         form.reset(defaultValues);
       }
     } else {
-      form.reset(defaultValues);
       toast({
-        title: "Form Cleared",
-        description: "No copied data found. The form has been reset to default values.",
+        title: "Nothing to Auto-fill",
+        description: "No copied data found. Please copy an offer first.",
       });
     }
   }
@@ -406,5 +402,3 @@ export default function NewOfferPage() {
     </>
   );
 }
-
-    

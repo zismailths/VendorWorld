@@ -69,7 +69,16 @@ export function OffersTable({ offers }: OffersTableProps) {
   };
   
   const handleCopyClick = (offer: SellerOffer) => {
-    localStorage.setItem('copiedOffer', JSON.stringify(offer));
+    // To make auto-fill work, we add placeholder hardware specs.
+    // In a real app, these would come from the offer data itself.
+    const offerToCopy = {
+      ...offer,
+      ram: "16gb",
+      storage: "512gb",
+      gpu: "Integrated Graphics",
+      screenSize: "14in",
+    }
+    localStorage.setItem('copiedOffer', JSON.stringify(offerToCopy));
     toast({
         title: "Offer Copied",
         description: `Details for ${offer.model} have been copied for auto-fill.`,
@@ -290,5 +299,3 @@ export function OffersTable({ offers }: OffersTableProps) {
     </TooltipProvider>
   );
 }
-
-    
