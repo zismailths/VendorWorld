@@ -32,6 +32,8 @@ export const sellerOffers: SellerOffer[] = [
     condition: 'A',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-1')?.imageUrl || '',
     createdAt: '2024-05-20T14:48:00.000Z',
+    totalViews: 1254,
+    dailyViews: 88,
   },
   {
     id: 'seller-2',
@@ -46,6 +48,8 @@ export const sellerOffers: SellerOffer[] = [
     condition: 'B',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-2')?.imageUrl || '',
     createdAt: '2024-05-19T11:20:00.000Z',
+    totalViews: 876,
+    dailyViews: 45,
   },
     {
     id: 'seller-3',
@@ -60,6 +64,8 @@ export const sellerOffers: SellerOffer[] = [
     condition: 'A',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-3')?.imageUrl || '',
     createdAt: '2024-05-21T09:00:00.000Z',
+    totalViews: 2109,
+    dailyViews: 150,
   },
   {
     id: 'seller-4',
@@ -74,6 +80,8 @@ export const sellerOffers: SellerOffer[] = [
     condition: 'C',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-1')?.imageUrl || '',
     createdAt: '2024-04-15T18:30:00.000Z',
+    totalViews: 3421,
+    dailyViews: 210,
   },
   {
     id: 'seller-5',
@@ -88,6 +96,8 @@ export const sellerOffers: SellerOffer[] = [
     condition: 'B',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-2')?.imageUrl || '',
     createdAt: '2024-04-10T12:00:00.000Z',
+    totalViews: 543,
+    dailyViews: 21,
   },
 
   // Competitor Offers for MacBook Pro 16" M3 Max

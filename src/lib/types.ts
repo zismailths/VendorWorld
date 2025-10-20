@@ -12,6 +12,8 @@ export type SellerOffer = {
   condition: 'A' | 'B' | 'C' | 'D';
   imageUrl: string;
   createdAt: string;
+  totalViews?: number;
+  dailyViews?: number;
 };
 
 export type LaptopModel = {

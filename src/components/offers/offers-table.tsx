@@ -1,8 +1,9 @@
+
 "use client";
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { MoreHorizontal, Pencil, Trash2 } from 'lucide-react';
+import { MoreHorizontal, Pencil, Trash2, Eye } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -105,6 +106,7 @@ export function OffersTable({ offers }: OffersTableProps) {
               <TableHead className="text-right">Offered Price</TableHead>
               <TableHead className="text-center">Rank</TableHead>
               <TableHead className="text-right">Rank #1 Price</TableHead>
+              <TableHead className="text-center">Views</TableHead>
               <TableHead className="text-center">Status</TableHead>
               <TableHead className="w-[50px] text-right">Actions</TableHead>
             </TableRow>
@@ -133,6 +135,13 @@ export function OffersTable({ offers }: OffersTableProps) {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">{formatCurrency(offer.rank1Price)}</TableCell>
+                <TableCell className="text-center">
+                    <div className="flex items-center justify-center gap-1 text-sm text-muted-foreground">
+                        <Eye className="h-4 w-4" />
+                        <span>{offer.totalViews ?? 0}</span>
+                        <span className="text-xs text-green-500">(+{offer.dailyViews ?? 0})</span>
+                    </div>
+                </TableCell>
                 <TableCell className="text-center">
                   <Badge variant={
                     offer.status === 'ACTIVE' ? 'secondary' : offer.status === 'SOLD' ? 'default' : 'destructive'
