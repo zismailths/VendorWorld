@@ -137,6 +137,7 @@ export function OffersTable({ offers }: OffersTableProps) {
               <TableHead className="w-[80px]">Image</TableHead>
               <TableHead>Model & Serial</TableHead>
               <TableHead className="text-right">Offered Price</TableHead>
+              <TableHead className="text-center">Stock Left</TableHead>
               <TableHead className="text-center">Rank</TableHead>
               <TableHead className="text-right">Rank #1 Price</TableHead>
               <TableHead className="text-center">Views</TableHead>
@@ -162,6 +163,7 @@ export function OffersTable({ offers }: OffersTableProps) {
                   <div className="text-sm text-muted-foreground font-mono">{offer.serial}</div>
                 </TableCell>
                 <TableCell className="text-right font-medium">{formatCurrency(offer.price)}</TableCell>
+                <TableCell className="text-center font-medium">{offer.quantity ?? 1}</TableCell>
                 <TableCell className="text-center">
                   <Badge variant={offer.rank === 1 ? 'default' : 'secondary'} className={cn(offer.rank === 1 && 'bg-amber-500 hover:bg-amber-600 text-white')}>
                     #{offer.rank}

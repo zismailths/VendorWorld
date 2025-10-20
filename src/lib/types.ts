@@ -6,6 +6,7 @@ export type SellerOffer = {
   modelId: string;
   serial: string;
   price: number;
+  quantity?: number;
   rank: number;
   rank1Price: number;
   status: 'ACTIVE' | 'SOLD' | 'EXPIRED';
