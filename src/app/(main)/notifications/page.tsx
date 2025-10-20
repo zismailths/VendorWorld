@@ -18,9 +18,9 @@ const alertIcons: Record<Alert['type'], JSX.Element> = {
 };
 
 const alertBgColors: Record<Alert['type'], string> = {
-    RANK_1: "bg-green-50 border-green-200",
-    UNDERCUT: "bg-red-50 border-red-200",
-    NEW_OFFER: "bg-amber-50 border-amber-200",
+    RANK_1: "bg-green-100/70 border-green-200 hover:bg-green-100",
+    UNDERCUT: "bg-red-100/70 border-red-200 hover:bg-red-100",
+    NEW_OFFER: "bg-amber-100/70 border-amber-200 hover:bg-amber-100",
 }
 
 export default function AlertsPage() {
@@ -61,7 +61,7 @@ export default function AlertsPage() {
             <CardContent>
                 <div className="space-y-4">
                 {currentAlerts.map((alert) => (
-                    <div key={alert.id} className={cn("flex items-start gap-4 p-4 border rounded-lg", alertBgColors[alert.type])}>
+                    <div key={alert.id} className={cn("flex items-start gap-4 p-4 border rounded-lg transition-colors", alertBgColors[alert.type])}>
                     <div className="mt-1">{alertIcons[alert.type]}</div>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{alert.message}</p>
@@ -83,4 +83,3 @@ export default function AlertsPage() {
     </>
   );
 }
-
