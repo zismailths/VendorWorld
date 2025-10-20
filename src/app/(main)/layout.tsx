@@ -9,7 +9,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal } from "lucide-react";
+import { MoreHorizontal, PanelLeft } from "lucide-react";
 import { MainNav } from '@/components/main-nav';
 import { Logo } from '@/components/icons';
 import { userProfile } from "@/lib/data";
@@ -21,7 +21,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         <SidebarHeader className="border-b border-sidebar-border">
           <div className="flex items-center gap-2">
             <Logo className="size-7 text-sidebar-foreground" />
-            <div>
+            <div className="group-data-[state=expanded]:block hidden">
               <h1 className="font-headline text-lg font-semibold text-sidebar-foreground">
                 VendorWorld
               </h1>
@@ -39,7 +39,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
               <AvatarImage src={userProfile.avatarUrl} alt={userProfile.name} data-ai-hint="person face" />
               <AvatarFallback>{userProfile.name.charAt(0)}</AvatarFallback>
             </Avatar>
-            <div className="flex-1 overflow-hidden">
+            <div className="flex-1 overflow-hidden group-data-[state=expanded]:block hidden">
                 <p className="truncate text-sm font-semibold text-sidebar-foreground">
                   {userProfile.name}
                 </p>
@@ -47,7 +47,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   {userProfile.email}
                 </p>
             </div>
-            <Button variant="ghost" size="icon" className="size-8 shrink-0 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
+            <Button variant="ghost" size="icon" className="size-8 shrink-0 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[state=expanded]:block hidden">
                 <MoreHorizontal />
             </Button>
           </div>
