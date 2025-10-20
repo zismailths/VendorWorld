@@ -159,51 +159,50 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
             )}
             {groupedOffers.map((group) => (
               <Collapsible asChild key={group.modelId}>
-                <>
-                <TableRow className="font-semibold bg-card hover:bg-muted/50">
-                    <TableCell>
-                      <CollapsibleTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
-                              <ChevronRight className="h-4 w-4 transition-transform [&[data-state=open]]:rotate-90" />
-                          </Button>
-                      </CollapsibleTrigger>
-                    </TableCell>
-                    <TableCell>
-                    <Image
-                        src={group.imageUrl}
-                        alt={group.model}
-                        width={64}
-                        height={48}
-                        className="rounded-md object-cover"
-                        data-ai-hint="modern laptop"
-                    />
-                    </TableCell>
-                    <TableCell>{group.model}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(group.averagePrice)}</TableCell>
-                    <TableCell className="text-center">{group.totalQuantity}</TableCell>
-                    <TableCell className="text-center">
-                        <Badge variant={group.bestRank === 1 ? 'default' : 'secondary'} className={cn(group.bestRank === 1 && 'bg-amber-500 hover:bg-amber-600 text-white')}>
-                            #{group.bestRank}
-                        </Badge>
-                    </TableCell>
-                    <TableCell className="text-right">{formatCurrency(group.rank1Price)}</TableCell>
-                    <TableCell className="text-center">
-                        <div className="flex items-center justify-center gap-1 text-sm">
-                            <Eye className="h-4 w-4 text-muted-foreground" />
-                            <span>{group.totalViews}</span>
-                            <span className="text-xs text-green-500">(+{group.dailyViews})</span>
-                        </div>
-                    </TableCell>
-                     <TableCell className="text-right"></TableCell>
-                </TableRow>
-                <CollapsibleContent asChild>
-                    <>
-                    <TableRow className='bg-muted/50'>
-                         <TableCell></TableCell>
-                         <TableCell colSpan={8} className="p-0">
-                             <Table>
-                                 <TableHeader>
-                                     <TableRow className="hover:bg-transparent">
+                <tbody>
+                  <TableRow className="font-semibold bg-card hover:bg-muted/50">
+                      <TableCell>
+                        <CollapsibleTrigger asChild>
+                            <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <ChevronRight className="h-4 w-4 transition-transform [&[data-state=open]]:rotate-90" />
+                            </Button>
+                        </CollapsibleTrigger>
+                      </TableCell>
+                      <TableCell>
+                      <Image
+                          src={group.imageUrl}
+                          alt={group.model}
+                          width={64}
+                          height={48}
+                          className="rounded-md object-cover"
+                          data-ai-hint="modern laptop"
+                      />
+                      </TableCell>
+                      <TableCell>{group.model}</TableCell>
+                      <TableCell className="text-right">{formatCurrency(group.averagePrice)}</TableCell>
+                      <TableCell className="text-center">{group.totalQuantity}</TableCell>
+                      <TableCell className="text-center">
+                          <Badge variant={group.bestRank === 1 ? 'default' : 'secondary'} className={cn(group.bestRank === 1 && 'bg-amber-500 hover:bg-amber-600 text-white')}>
+                              #{group.bestRank}
+                          </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">{formatCurrency(group.rank1Price)}</TableCell>
+                      <TableCell className="text-center">
+                          <div className="flex items-center justify-center gap-1 text-sm">
+                              <Eye className="h-4 w-4 text-muted-foreground" />
+                              <span>{group.totalViews}</span>
+                              <span className="text-xs text-green-500">(+{group.dailyViews})</span>
+                          </div>
+                      </TableCell>
+                      <TableCell className="text-right"></TableCell>
+                  </TableRow>
+                  <CollapsibleContent asChild>
+                      <TableRow className='bg-muted/50'>
+                          <TableCell></TableCell>
+                          <TableCell colSpan={8} className="p-0">
+                              <Table>
+                                  <TableHeader>
+                                      <TableRow className="hover:bg-transparent">
                                         <TableHead>Serial Number</TableHead>
                                         <TableHead>Upload Date</TableHead>
                                         <TableHead className="text-right">Price</TableHead>
@@ -211,9 +210,9 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                                         <TableHead className="text-center">Rank</TableHead>
                                         <TableHead className="text-center">Status</TableHead>
                                         <TableHead className="text-right w-[180px]">Actions</TableHead>
-                                     </TableRow>
-                                 </TableHeader>
-                                 <TableBody>
+                                      </TableRow>
+                                  </TableHeader>
+                                  <TableBody>
                                     {group.offers.map((offer) => (
                                         <TableRow key={offer.id} className="hover:bg-muted">
                                             <TableCell>
@@ -276,13 +275,12 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                                             </TableCell>
                                         </TableRow>
                                     ))}
-                                 </TableBody>
-                             </Table>
-                         </TableCell>
-                    </TableRow>
-                     </>
-                </CollapsibleContent>
-                </>
+                                  </TableBody>
+                              </Table>
+                          </TableCell>
+                      </TableRow>
+                  </CollapsibleContent>
+                </tbody>
               </Collapsible>
             ))}
           </TableBody>
