@@ -32,6 +32,12 @@ export function SalesChart() {
       <CardContent>
         <ChartContainer config={chartConfig} className="h-64 w-full">
           <BarChart data={salesData} accessibilityLayer>
+            <defs>
+                <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="var(--color-revenue)" stopOpacity={0.2}/>
+                </linearGradient>
+            </defs>
             <CartesianGrid vertical={false} />
             <XAxis
               dataKey="month"
@@ -50,10 +56,11 @@ export function SalesChart() {
                 indicator="dot"
               />}
             />
-            <Bar dataKey="revenue" fill="var(--color-revenue)" radius={4} />
+            <Bar dataKey="revenue" fill="url(#colorRevenue)" radius={4} />
           </BarChart>
         </ChartContainer>
       </CardContent>
     </Card>
   );
 }
+
