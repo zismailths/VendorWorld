@@ -8,11 +8,17 @@ import { Button } from "@/components/ui/button";
 import { alerts } from "@/lib/data";
 import { formatDistanceToNow } from "date-fns";
 import { AlertTriangle, Trophy, RefreshCw } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const alertIcons = {
-  RANK_1: <Trophy className="h-5 w-5 text-amber-500" />,
-  UNDERCUT: <AlertTriangle className="h-5 w-5 text-destructive" />,
+const alertIcons: Record<Alert['type'], JSX.Element> = {
+  RANK_1: <Trophy className="h-5 w-5 text-amber-600" />,
+  UNDERCUT: <AlertTriangle className="h-5 w-5 text-red-600" />,
 };
+
+const alertBgColors: Record<Alert['type'], string> = {
+    RANK_1: "bg-amber-50 border-amber-200",
+    UNDERCUT: "bg-red-50 border-red-200",
+}
 
 export default function AlertsPage() {
   const [refreshKey, setRefreshKey] = useState(0);
@@ -43,7 +49,7 @@ export default function AlertsPage() {
             <CardContent>
                 <div className="space-y-4">
                 {alerts.map((alert) => (
-                    <div key={alert.id} className="flex items-start gap-4 p-4 border rounded-lg">
+                    <div key={alert.id} className={cn("flex items-start gap-4 p-4 border rounded-lg", alertBgColors[alert.type])}>
                     <div className="mt-1">{alertIcons[alert.type]}</div>
                     <div className="flex-1">
                         <p className="text-sm font-medium">{alert.message}</p>
