@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, useFieldArray } from "react-hook-form";
 import { z } from "zod";
@@ -84,24 +84,16 @@ export default function NewOfferPage() {
 
   const quantity = form.watch("quantity");
 
-  useState(() => {
-    const subscription = form.watch((value, { name }) => {
-      if (name === "quantity") {
-        const newQuantity = Number(value.quantity) || 0;
-        const currentCount = fields.length;
-        if (newQuantity > currentCount) {
-          for (let i = currentCount; i < newQuantity; i++) {
-            append({ value: "" });
-          }
-        } else if (newQuantity < currentCount) {
-          for (let i = currentCount; i > newQuantity; i--) {
-            remove(i - 1);
-          }
-        }
-      }
-    });
-    return () => subscription.unsubscribe();
-  }, [form, fields, append, remove]);
+  useEffect(() => {
+    const newQuantity = Number(quantity) || 0;
+    const currentCount = fields.length;
+    if (newQuantity > 0 && newQuantity !== currentCount) {
+        const newFields = Array.from({ length: newQuantity }, (_, i) => ({
+            value: fields[i]?.value || ''
+        }));
+        replace(newFields);
+    }
+  }, [quantity, fields, replace]);
 
 
   function onSubmit(data: OfferFormValues) {
@@ -147,11 +139,11 @@ export default function NewOfferPage() {
         form.reset(defaultValues);
       }
     } else {
+      form.reset(defaultValues);
       toast({
         title: "Nothing to Auto-fill",
         description: "No copied data found. Please copy an offer first.",
       });
-      form.reset(defaultValues);
     }
   }
 
