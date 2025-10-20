@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -35,6 +36,7 @@ const offerFormSchema = z.object({
   modelId: z.string({ required_error: "Please select a laptop model." }),
   uniqueSerialNumber: z.string().min(6, "Serial number must be at least 6 characters."),
   sellerPrice: z.coerce.number().positive("Price must be a positive number."),
+  quantity: z.coerce.number().int().positive("Quantity must be at least 1."),
   ram: z.string({ required_error: "Please select RAM configuration." }),
   storage: z.string({ required_error: "Please select storage capacity." }),
   gpu: z.string().min(1, "Please specify the GPU."),
@@ -55,6 +57,7 @@ export default function NewOfferPage() {
     defaultValues: {
       uniqueSerialNumber: "",
       notes: "",
+      quantity: 1,
     },
   });
 
@@ -269,6 +272,20 @@ export default function NewOfferPage() {
                         </FormItem>
                         )}
                     />
+                    
+                    <FormField
+                        control={form.control}
+                        name="quantity"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Quantity</FormLabel>
+                            <FormControl>
+                                <Input type="number" placeholder="e.g. 10" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
 
                     <div className="md:col-span-2">
                         <FormField
@@ -338,3 +355,5 @@ export default function NewOfferPage() {
     </>
   );
 }
+
+    
