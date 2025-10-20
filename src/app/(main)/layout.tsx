@@ -20,10 +20,13 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Sidebar side="left" variant="sidebar" collapsible="icon">
         <SidebarHeader className="border-b border-sidebar-border">
           <div className="flex items-center gap-2">
-            <Logo className="size-7 text-sidebar-primary-foreground" />
-            <h1 className="font-headline text-lg font-semibold text-sidebar-primary-foreground">
-              VendorWorld
-            </h1>
+            <Logo className="size-7 text-sidebar-foreground" />
+            <div>
+              <h1 className="font-headline text-lg font-semibold text-sidebar-foreground">
+                VendorWorld
+              </h1>
+              <p className="text-xs text-sidebar-foreground/80">Seller Dashboard</p>
+            </div>
             <SidebarTrigger className="ml-auto" />
           </div>
         </SidebarHeader>

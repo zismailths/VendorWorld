@@ -29,7 +29,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/components/shared/page-header";
 import { laptopModels } from "@/lib/data";
-import { QrCode, Upload } from "lucide-react";
+import { QrCode, Upload, PlusCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
 
@@ -69,9 +69,18 @@ export default function NewOfferPage() {
   return (
     <>
       <PageHeader
-        title="Create New Offer"
+        title="Upload New Product"
         description="Fill out the details to list a new laptop for sale."
-      />
+      >
+        <Button variant="outline">
+          <QrCode className="mr-2 h-4 w-4" />
+          QR Scan
+        </Button>
+        <Button>
+          <PlusCircle className="mr-2 h-4 w-4" />
+          Add Product
+        </Button>
+      </PageHeader>
       <main className="p-6 pt-0">
         <Card>
           <CardHeader>
@@ -219,7 +228,7 @@ export default function NewOfferPage() {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                    <Button type="submit" className="bg-accent hover:bg-accent/90 text-accent-foreground">Submit Offer</Button>
+                    <Button type="submit" className="bg-gradient-to-r from-primary to-accent text-primary-foreground">Upload Product</Button>
                 </div>
               </form>
             </Form>

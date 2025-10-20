@@ -20,7 +20,7 @@ body {
     --secondary-foreground: 224 71.4% 4.1%;
     --muted: 210 20% 94%;
     --muted-foreground: 215 20.2% 65.1%;
-    --accent: 288 83.1% 54.3%;
+    --accent: 288 83% 54%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -33,14 +33,14 @@ body {
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
     --radius: 0.5rem;
-    --sidebar-background: 207 98% 59%;
-    --sidebar-foreground: 0 0% 98%;
+    --sidebar-background: hsl(var(--primary));
+    --sidebar-foreground: hsl(var(--primary-foreground));
     --sidebar-primary: 0 0% 100%;
-    --sidebar-primary-foreground: 207 98% 59%;
-    --sidebar-accent: 207 98% 69%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 207 98% 50%;
-    --sidebar-ring: 0 0% 98%;
+    --sidebar-primary-foreground: hsl(var(--primary));
+    --sidebar-accent: hsl(var(--primary) / 0.1);
+    --sidebar-accent-foreground: hsl(var(--primary-foreground));
+    --sidebar-border: hsl(var(--primary) / 0.2);
+    --sidebar-ring: hsl(var(--primary-foreground));
   }
   .dark {
     --background: 222.2 84% 4.9%;
