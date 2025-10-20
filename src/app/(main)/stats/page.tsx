@@ -1,6 +1,8 @@
+"use client"
+
 import { PageHeader } from "@/components/shared/page-header";
 import { PerformanceChart } from "@/components/stats/performance-chart";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, Target } from "lucide-react";
 import { stats } from "@/lib/data";
 
