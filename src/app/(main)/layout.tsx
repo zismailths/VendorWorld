@@ -1,4 +1,8 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '@/components/ui/avatar';
 import {
   Sidebar,
   SidebarContent,
@@ -7,13 +11,21 @@ import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal, PanelLeft, QrCode, PlusCircle } from "lucide-react";
+} from '@/components/ui/sidebar';
+import { Button } from '@/components/ui/button';
+import { LogOut, MoreHorizontal, PanelLeft, QrCode, PlusCircle, User } from 'lucide-react';
 import { MainNav } from '@/components/main-nav';
 import { Logo } from '@/components/icons';
-import { userProfile } from "@/lib/data";
-import Link from "next/link";
+import { userProfile } from '@/lib/data';
+import Link from 'next/link';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuLabel,
+    DropdownMenuSeparator,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -48,9 +60,35 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                   {userProfile.email}
                 </p>
             </div>
-            <Button variant="ghost" size="icon" className="size-8 shrink-0 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[state=expanded]:block hidden">
-                <MoreHorizontal />
-            </Button>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="size-8 shrink-0 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground group-data-[state=expanded]:block hidden">
+                        <MoreHorizontal />
+                    </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent side="right" align="end" className="w-56">
+                    <DropdownMenuLabel className="font-normal">
+                        <div className="flex flex-col space-y-1">
+                            <p className="text-sm font-medium leading-none">{userProfile.name}</p>
+                            <p className="text-xs leading-none text-muted-foreground">
+                                {userProfile.email}
+                            </p>
+                        </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                     <DropdownMenuItem asChild>
+                         <Link href="/profile">
+                            <User className="mr-2 h-4 w-4" />
+                            <span>Profile</span>
+                         </Link>
+                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem>
+                        <LogOut className="mr-2 h-4 w-4" />
+                        <span>Log out</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </SidebarFooter>
       </Sidebar>
