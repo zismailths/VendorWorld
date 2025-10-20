@@ -26,14 +26,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { PageHeader } from "@/components/shared/page-header";
 import { laptopModels } from "@/lib/data";
-import { QrCode, Upload, ListPlus, ArrowLeft } from "lucide-react";
+import { QrCode, Upload, ListPlus, ArrowLeft, Bot } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from 'next/navigation';
+import { Separator } from "@/components/ui/separator";
 
 const offerFormSchema = z.object({
   modelId: z.string({ required_error: "Please select a laptop model." }),
   uniqueSerialNumber: z.string().min(6, "Serial number must be at least 6 characters."),
   sellerPrice: z.coerce.number().positive("Price must be a positive number."),
+  ram: z.string({ required_error: "Please select RAM configuration." }),
+  storage: z.string({ required_error: "Please select storage capacity." }),
+  gpu: z.string().min(1, "Please specify the GPU."),
+  screenSize: z.string({ required_error: "Please select a screen size." }),
   images: z.any().optional(), // In a real app, this would be more specific
   notes: z.string().optional(),
 });
@@ -69,12 +74,12 @@ export default function NewOfferPage() {
         <CardDescription>Choose an option below to get started.</CardDescription>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 gap-6">
-        <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center" onClick={() => { /* Implement QR Scan */ }}>
+        <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center justify-center text-center" onClick={() => { /* Implement QR Scan */ }}>
           <QrCode className="h-10 w-10 text-primary" />
           <span className="font-semibold text-lg">Scan QR Code</span>
           <span className="text-sm text-muted-foreground">Faster for multiple entries</span>
         </Button>
-        <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center" onClick={() => setEntryMethod("manual")}>
+        <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center justify-center text-center" onClick={() => setEntryMethod("manual")}>
           <ListPlus className="h-10 w-10 text-primary" />
           <span className="font-semibold text-lg">Add Product Manually</span>
           <span className="text-sm text-muted-foreground">Enter all the details by hand</span>
@@ -87,7 +92,7 @@ export default function NewOfferPage() {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-4">
-            <Button variant="outline" size="icon" className="h-8 w-8" onClick={() => setEntryMethod("choice")}>
+            <Button variant="outline" size="icon" className="h-8 w-8 shrink-0" onClick={() => setEntryMethod("choice")}>
                 <ArrowLeft className="h-4 w-4" />
                 <span className="sr-only">Back</span>
             </Button>
@@ -95,118 +100,225 @@ export default function NewOfferPage() {
                 <CardTitle className="font-headline text-xl">Laptop Details</CardTitle>
                 <CardDescription>Provide accurate information to attract buyers.</CardDescription>
             </div>
+            <Button variant="outline" size="sm" className="ml-auto">
+                <Bot className="mr-2 h-4 w-4"/>
+                Auto-fill
+            </Button>
         </div>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-            <div className="grid md:grid-cols-2 gap-8">
-              <FormField
-                control={form.control}
-                name="modelId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Laptop Model</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select a model" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {laptopModels.map(model => (
-                          <SelectItem key={model.id} value={model.id}>{model.name}</SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="uniqueSerialNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Unique Serial Number</FormLabel>
-                    <div className="flex gap-2">
-                       <FormControl>
-                        <Input placeholder="e.g. C02G8R2JLV2F" {...field} />
-                      </FormControl>
-                      <Button variant="outline" type="button" size="icon">
-                          <QrCode className="h-4 w-4" />
-                          <span className="sr-only">Scan QR code</span>
-                      </Button>
-                    </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="sellerPrice"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Your Price</FormLabel>
-                     <div className="relative">
-                       <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">₹</span>
-                       <FormControl>
-                          <Input type="number" placeholder="e.g. 150000" className="pl-7" {...field} />
-                       </FormControl>
-                     </div>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-               <div className="md:col-span-2">
-                 <FormField
+            
+            <div className="space-y-4">
+                <h3 className="text-lg font-medium text-foreground">Basic Information</h3>
+                <div className="grid md:grid-cols-2 gap-8">
+                <FormField
                     control={form.control}
-                    name="images"
+                    name="modelId"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Upload Images</FormLabel>
+                    <FormItem>
+                        <FormLabel>Laptop Model</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
-                           <div className="flex items-center justify-center w-full">
-                                <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-muted/50 hover:bg-muted">
-                                    <div className="flex flex-col items-center justify-center pt-5 pb-6">
-                                        <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
-                                        <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold">Click to upload</span> or drag and drop</p>
-                                        <p className="text-xs text-muted-foreground">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-                                    </div>
-                                    <Input id="dropzone-file" type="file" className="hidden" {...field} />
-                                </label>
-                            </div> 
+                            <SelectTrigger>
+                            <SelectValue placeholder="Select a model" />
+                            </SelectTrigger>
                         </FormControl>
-                        <FormDescription>Upload up to 5 images of the device.</FormDescription>
+                        <SelectContent>
+                            {laptopModels.map(model => (
+                            <SelectItem key={model.id} value={model.id}>{model.name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                        </Select>
                         <FormMessage />
-                      </FormItem>
+                    </FormItem>
                     )}
-                  />
-              </div>
-               <div className="md:col-span-2">
-                 <FormField
+                />
+                <FormField
                     control={form.control}
-                    name="notes"
+                    name="uniqueSerialNumber"
                     render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Additional Notes (Optional)</FormLabel>
+                    <FormItem>
+                        <FormLabel>Unique Serial Number</FormLabel>
+                        <div className="flex gap-2">
                         <FormControl>
-                           <Textarea
-                              placeholder="Any scratches, dents, or functional issues? Mention them here."
-                              className="resize-none"
-                              {...field}
-                            />
+                            <Input placeholder="e.g. C02G8R2JLV2F" {...field} />
                         </FormControl>
+                        <Button variant="outline" type="button" size="icon">
+                            <QrCode className="h-4 w-4" />
+                            <span className="sr-only">Scan QR code</span>
+                        </Button>
+                        </div>
                         <FormMessage />
-                      </FormItem>
+                    </FormItem>
                     )}
-                  />
-              </div>
+                />
+                </div>
             </div>
-            <div className="flex justify-end">
-                <Button type="submit">Upload Product</Button>
+
+            <Separator />
+
+            <div className="space-y-4">
+                <h3 className="text-lg font-medium text-foreground">Hardware Specifications</h3>
+                 <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <FormField
+                        control={form.control}
+                        name="ram"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>RAM</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select RAM" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="8gb">8GB</SelectItem>
+                                <SelectItem value="16gb">16GB</SelectItem>
+                                <SelectItem value="32gb">32GB</SelectItem>
+                                <SelectItem value="64gb">64GB</SelectItem>
+                            </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                     <FormField
+                        control={form.control}
+                        name="storage"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Storage</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select Storage" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="256gb">256GB SSD</SelectItem>
+                                <SelectItem value="512gb">512GB SSD</SelectItem>
+                                <SelectItem value="1tb">1TB SSD</SelectItem>
+                                <SelectItem value="2tb">2TB SSD</SelectItem>
+                                <SelectItem value="4tb">4TB SSD</SelectItem>
+                            </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="gpu"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>GPU</FormLabel>
+                            <FormControl>
+                                <Input placeholder="e.g. NVIDIA RTX 4080" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                     <FormField
+                        control={form.control}
+                        name="screenSize"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Screen Size</FormLabel>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger>
+                                <SelectValue placeholder="Select Size" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="13in">13-inch</SelectItem>
+                                <SelectItem value="14in">14-inch</SelectItem>
+                                <SelectItem value="15in">15-inch</SelectItem>
+                                <SelectItem value="16in">16-inch</SelectItem>
+                            </SelectContent>
+                            </Select>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+                </div>
+            </div>
+            
+            <Separator />
+            
+            <div className="space-y-4">
+                <h3 className="text-lg font-medium text-foreground">Offer Details</h3>
+                <div className="grid md:grid-cols-2 gap-8">
+                    <FormField
+                        control={form.control}
+                        name="sellerPrice"
+                        render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Your Price</FormLabel>
+                            <div className="relative">
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">₹</span>
+                            <FormControl>
+                                <Input type="number" placeholder="e.g. 150000" className="pl-7" {...field} />
+                            </FormControl>
+                            </div>
+                            <FormMessage />
+                        </FormItem>
+                        )}
+                    />
+
+                    <div className="md:col-span-2">
+                        <FormField
+                            control={form.control}
+                            name="images"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Upload Images</FormLabel>
+                                <FormControl>
+                                <div className="flex items-center justify-center w-full">
+                                        <label htmlFor="dropzone-file" className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-card hover:bg-muted/50">
+                                            <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                                                <Upload className="w-8 h-8 mb-4 text-muted-foreground" />
+                                                <p className="mb-2 text-sm text-muted-foreground"><span className="font-semibold text-primary">Click to upload</span> or drag and drop</p>
+                                                <p className="text-xs text-muted-foreground">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                                            </div>
+                                            <Input id="dropzone-file" type="file" className="hidden" {...field} />
+                                        </label>
+                                    </div> 
+                                </FormControl>
+                                <FormDescription>Upload up to 5 images of the device.</FormDescription>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                    </div>
+                    <div className="md:col-span-2">
+                        <FormField
+                            control={form.control}
+                            name="notes"
+                            render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Additional Notes (Optional)</FormLabel>
+                                <FormControl>
+                                <Textarea
+                                    placeholder="Any scratches, dents, or functional issues? Mention them here."
+                                    className="resize-none"
+                                    {...field}
+                                    />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <div className="flex justify-end pt-4">
+                <Button type="submit" variant="gradient" size="lg">Upload Product</Button>
             </div>
           </form>
         </Form>
