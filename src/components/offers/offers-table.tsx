@@ -3,7 +3,7 @@
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { MoreHorizontal, Pencil, Trash2, Eye } from 'lucide-react';
+import { Pencil, Trash2, Eye, EyeOff, Copy } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -12,12 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
 import {
   Dialog,
   DialogContent,
@@ -57,7 +51,8 @@ type OffersTableProps = {
 export function OffersTable({ offers }: OffersTableProps) {
   const { toast } = useToast();
   const [editingOffer, setEditingOffer] = useState<SellerOffer | null>(null);
-  const [withdrawingOffer, setWithdrawingOffer] = useState<SellerOffer | null>(null);
+  const [deletingOffer, setDeletingOffer] = useState<SellerOffer | null>(null);
+  const [hidingOffer, setHidingOffer] = useState<SellerOffer | null>(null);
   const [newPrice, setNewPrice] = useState('');
 
   const handleEditClick = (offer: SellerOffer) => {
@@ -65,8 +60,20 @@ export function OffersTable({ offers }: OffersTableProps) {
     setNewPrice(String(offer.price));
   };
   
-  const handleWithdrawClick = (offer: SellerOffer) => {
-    setWithdrawingOffer(offer);
+  const handleDeleteClick = (offer: SellerOffer) => {
+    setDeletingOffer(offer);
+  };
+
+  const handleHideClick = (offer: SellerOffer) => {
+    setHidingOffer(offer);
+  };
+  
+  const handleCopyClick = (offer: SellerOffer) => {
+    console.log(`Copying offer ${offer.id}`);
+    toast({
+        title: "Offer Copied",
+        description: `Details for ${offer.model} have been copied.`,
+    });
   };
 
   const handlePriceUpdate = () => {
@@ -80,15 +87,26 @@ export function OffersTable({ offers }: OffersTableProps) {
     }
   };
 
-  const handleWithdrawConfirm = () => {
-    if(withdrawingOffer) {
-      console.log(`Withdrawing offer ${withdrawingOffer.id}`);
+  const handleDeleteConfirm = () => {
+    if(deletingOffer) {
+      console.log(`Deleting offer ${deletingOffer.id}`);
        toast({
-        title: "Offer Withdrawn",
-        description: `Offer for ${withdrawingOffer.model} has been withdrawn.`,
+        title: "Offer Deleted",
+        description: `Offer for ${deletingOffer.model} has been deleted.`,
         variant: 'destructive'
       });
-      setWithdrawingOffer(null);
+      setDeletingOffer(null);
+    }
+  };
+  
+  const handleHideConfirm = () => {
+    if(hidingOffer) {
+      console.log(`Hiding offer ${hidingOffer.id}`);
+       toast({
+        title: "Offer Hidden",
+        description: `Offer for ${hidingOffer.model} is now hidden from listings.`,
+      });
+      setHidingOffer(null);
     }
   };
 
@@ -114,7 +132,7 @@ export function OffersTable({ offers }: OffersTableProps) {
               <TableHead className="text-right">Rank #1 Price</TableHead>
               <TableHead className="text-center">Views</TableHead>
               <TableHead className="text-center">Status</TableHead>
-              <TableHead className="w-[100px] text-right">Actions</TableHead>
+              <TableHead className="w-[140px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -156,24 +174,42 @@ export function OffersTable({ offers }: OffersTableProps) {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                   <div className="flex items-center justify-end gap-2">
+                   <div className="flex items-center justify-end gap-0.5">
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditClick(offer)}>
                                     <Pencil className="h-4 w-4" />
-                                    <span className="sr-only">Edit Price</span>
+                                    <span className="sr-only">Edit</span>
                                 </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Edit Price</TooltipContent>
+                            <TooltipContent>Edit</TooltipContent>
+                        </Tooltip>
+                         <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleHideClick(offer)}>
+                                    <EyeOff className="h-4 w-4" />
+                                    <span className="sr-only">Hide</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Hide</TooltipContent>
                         </Tooltip>
                         <Tooltip>
-                             <TooltipTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleWithdrawClick(offer)}>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleDeleteClick(offer)}>
                                     <Trash2 className="h-4 w-4" />
-                                    <span className="sr-only">Withdraw Offer</span>
+                                    <span className="sr-only">Delete</span>
                                 </Button>
                             </TooltipTrigger>
-                            <TooltipContent>Withdraw Offer</TooltipContent>
+                            <TooltipContent>Delete</TooltipContent>
+                        </Tooltip>
+                         <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopyClick(offer)}>
+                                    <Copy className="h-4 w-4" />
+                                    <span className="sr-only">Copy</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Copy</TooltipContent>
                         </Tooltip>
                    </div>
                 </TableCell>
@@ -216,19 +252,37 @@ export function OffersTable({ offers }: OffersTableProps) {
         </DialogContent>
       </Dialog>
       
-      {/* Withdraw Offer Alert Dialog */}
-      <AlertDialog open={!!withdrawingOffer} onOpenChange={() => setWithdrawingOffer(null)}>
+      {/* Delete Offer Alert Dialog */}
+      <AlertDialog open={!!deletingOffer} onOpenChange={() => setDeletingOffer(null)}>
           <AlertDialogContent>
               <AlertDialogHeader>
-                  <AlertDialogTitle className="font-headline">Are you sure?</AlertDialogTitle>
+                  <AlertDialogTitle className="font-headline">Are you sure you want to delete?</AlertDialogTitle>
                   <AlertDialogDescription>
-                    This will withdraw your offer for the {withdrawingOffer?.model}. This action cannot be undone and the offer status will be set to EXPIRED.
+                    This will permanently delete your offer for the {deletingOffer?.model}. This action cannot be undone.
                   </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                   <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction onClick={handleWithdrawConfirm} className="bg-destructive hover:bg-destructive/90">
-                    Yes, Withdraw Offer
+                  <AlertDialogAction onClick={handleDeleteConfirm} className="bg-destructive hover:bg-destructive/90">
+                    Yes, Delete Offer
+                  </AlertDialogAction>
+              </AlertDialogFooter>
+          </AlertDialogContent>
+      </AlertDialog>
+
+      {/* Hide Offer Alert Dialog */}
+      <AlertDialog open={!!hidingOffer} onOpenChange={() => setHidingOffer(null)}>
+          <AlertDialogContent>
+              <AlertDialogHeader>
+                  <AlertDialogTitle className="font-headline">Are you sure you want to hide?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will hide your offer for the {hidingOffer?.model} from public listings. You can unhide it later.
+                  </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleHideConfirm}>
+                    Yes, Hide Offer
                   </AlertDialogAction>
               </AlertDialogFooter>
           </AlertDialogContent>
