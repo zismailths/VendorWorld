@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import React, { useState } from 'react';
@@ -46,6 +45,7 @@ import type { SellerOffer } from '@/lib/types';
 import { cn } from '@/lib/utils';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 import type { GroupedOffer } from '@/app/(main)/offers/page';
+import { format } from "date-fns";
 
 
 type OffersTableProps = {
@@ -138,7 +138,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[24px]"></TableHead>
+              <TableHead className="w-[48px]"></TableHead>
               <TableHead className="w-[80px]">Image</TableHead>
               <TableHead>Model</TableHead>
               <TableHead className="text-right">Avg. Price</TableHead>
@@ -146,13 +146,21 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
               <TableHead className="text-center">Best Rank</TableHead>
               <TableHead className="text-right">Rank #1 Price</TableHead>
               <TableHead className="text-center">Views (24h)</TableHead>
+              <TableHead className="w-[180px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
+            {groupedOffers.length === 0 && (
+                <TableRow>
+                    <TableCell colSpan={9} className="h-24 text-center">
+                    You haven't listed any products yet.
+                    </TableCell>
+                </TableRow>
+            )}
             {groupedOffers.map((group) => (
               <Collapsible asChild key={group.modelId}>
                 <>
-                <TableRow className="font-semibold">
+                <TableRow className="font-semibold bg-card hover:bg-muted/50">
                     <TableCell>
                       <CollapsibleTrigger asChild>
                           <Button variant="ghost" size="icon" className="h-8 w-8">
@@ -186,71 +194,92 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                             <span className="text-xs text-green-500">(+{group.dailyViews})</span>
                         </div>
                     </TableCell>
+                     <TableCell className="text-right"></TableCell>
                 </TableRow>
                 <CollapsibleContent asChild>
                     <>
-                    {group.offers.map((offer) => (
-                        <TableRow key={offer.id} className="bg-muted/50 hover:bg-muted">
-                            <TableCell></TableCell>
-                            <TableCell></TableCell>
-                            <TableCell>
-                                <div className="text-sm text-muted-foreground font-mono">{offer.serial}</div>
-                            </TableCell>
-                            <TableCell className="text-right text-sm text-muted-foreground">{formatCurrency(offer.price)}</TableCell>
-                            <TableCell className="text-center text-sm text-muted-foreground">{offer.quantity ?? 1}</TableCell>
-                            <TableCell className="text-center">
-                                <Badge variant='outline'>#{offer.rank}</Badge>
-                            </TableCell>
-                             <TableCell className="text-right"></TableCell>
-                            <TableCell className="text-center">
-                                 <Badge variant={
-                                    offer.status === 'ACTIVE' ? 'secondary' : offer.status === 'SOLD' ? 'default' : 'destructive'
-                                } className={cn(offer.status === 'SOLD' && 'bg-green-600 hover:bg-green-700')}>
-                                    {offer.status}
-                                </Badge>
-                            </TableCell>
-                            <TableCell className="text-right">
-                                <div className="flex items-center justify-end gap-0.5">
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditClick(offer)}>
-                                                    <Pencil className="h-4 w-4" />
-                                                    <span className="sr-only">Edit</span>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Edit</TooltipContent>
-                                        </Tooltip>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleHideClick(offer)}>
-                                                    <EyeOff className="h-4 w-4" />
-                                                    <span className="sr-only">Hide</span>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Hide</TooltipContent>
-                                        </Tooltip>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleDeleteClick(offer)}>
-                                                    <Trash2 className="h-4 w-4" />
-                                                    <span className="sr-only">Delete</span>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Delete</TooltipContent>
-                                        </Tooltip>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopyClick(offer)}>
-                                                    <Copy className="h-4 w-4" />
-                                                    <span className="sr-only">Copy</span>
-                                                </Button>
-                                            </TooltipTrigger>
-                                            <TooltipContent>Copy</TooltipContent>
-                                        </Tooltip>
-                                </div>
-                            </TableCell>
-                        </TableRow>
-                     ))}
+                    <TableRow className='bg-muted/50'>
+                         <TableCell></TableCell>
+                         <TableCell colSpan={8} className="p-0">
+                             <Table>
+                                 <TableHeader>
+                                     <TableRow className="hover:bg-transparent">
+                                        <TableHead>Serial Number</TableHead>
+                                        <TableHead>Upload Date</TableHead>
+                                        <TableHead className="text-right">Price</TableHead>
+                                        <TableHead className="text-center">Stock Left</TableHead>
+                                        <TableHead className="text-center">Rank</TableHead>
+                                        <TableHead className="text-center">Status</TableHead>
+                                        <TableHead className="text-right w-[180px]">Actions</TableHead>
+                                     </TableRow>
+                                 </TableHeader>
+                                 <TableBody>
+                                    {group.offers.map((offer) => (
+                                        <TableRow key={offer.id} className="hover:bg-muted">
+                                            <TableCell>
+                                                <div className="text-sm text-muted-foreground font-mono">{offer.serial}</div>
+                                            </TableCell>
+                                            <TableCell className="text-sm text-muted-foreground">
+                                                {format(new Date(offer.createdAt), "dd MMM yyyy")}
+                                            </TableCell>
+                                            <TableCell className="text-right text-sm text-muted-foreground">{formatCurrency(offer.price)}</TableCell>
+                                            <TableCell className="text-center text-sm text-muted-foreground">{offer.quantity ?? 1}</TableCell>
+                                            <TableCell className="text-center">
+                                                <Badge variant='outline'>#{offer.rank}</Badge>
+                                            </TableCell>
+                                            <TableCell className="text-center">
+                                                <Badge variant={
+                                                    offer.status === 'ACTIVE' ? 'secondary' : offer.status === 'SOLD' ? 'default' : 'destructive'
+                                                } className={cn(offer.status === 'SOLD' && 'bg-green-600 hover:bg-green-700')}>
+                                                    {offer.status}
+                                                </Badge>
+                                            </TableCell>
+                                            <TableCell className="text-right">
+                                                <div className="flex items-center justify-end gap-0.5">
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditClick(offer)}>
+                                                                    <Pencil className="h-4 w-4" />
+                                                                    <span className="sr-only">Edit</span>
+                                                                </Button>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>Edit</TooltipContent>
+                                                        </Tooltip>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleHideClick(offer)}>
+                                                                    <EyeOff className="h-4 w-4" />
+                                                                    <span className="sr-only">Hide</span>
+                                                                </Button>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>Hide</TooltipContent>
+                                                        </Tooltip>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleDeleteClick(offer)}>
+                                                                    <Trash2 className="h-4 w-4" />
+                                                                    <span className="sr-only">Delete</span>
+                                                                </Button>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>Delete</TooltipContent>
+                                                        </Tooltip>
+                                                        <Tooltip>
+                                                            <TooltipTrigger asChild>
+                                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopyClick(offer)}>
+                                                                    <Copy className="h-4 w-4" />
+                                                                    <span className="sr-only">Copy</span>
+                                                                </Button>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>Copy</TooltipContent>
+                                                        </Tooltip>
+                                                </div>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
+                                 </TableBody>
+                             </Table>
+                         </TableCell>
+                    </TableRow>
                      </>
                 </CollapsibleContent>
                 </>
@@ -331,3 +360,4 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
     </TooltipProvider>
   );
 }
+    
