@@ -149,17 +149,19 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
               <TableHead className="w-[180px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
-          <TableBody>
+          
             {groupedOffers.length === 0 && (
+              <TableBody>
                 <TableRow>
                     <TableCell colSpan={9} className="h-24 text-center">
                     You haven't listed any products yet.
                     </TableCell>
                 </TableRow>
+              </TableBody>
             )}
             {groupedOffers.map((group) => (
-              <Collapsible asChild key={group.modelId}>
-                <>
+              <Collapsible asChild key={group.modelId} asChild>
+                <TableBody>
                   <TableRow className="font-semibold bg-card hover:bg-muted/50">
                       <TableCell>
                         <CollapsibleTrigger asChild>
@@ -280,10 +282,10 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                           </TableCell>
                       </TableRow>
                   </CollapsibleContent>
-                </>
+                </TableBody>
               </Collapsible>
             ))}
-          </TableBody>
+          
         </Table>
       </div>
 
