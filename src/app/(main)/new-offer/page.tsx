@@ -76,12 +76,12 @@ export default function NewOfferPage() {
       <CardContent className="grid md:grid-cols-2 gap-6">
         <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center justify-center text-center" onClick={() => { /* Implement QR Scan */ }}>
           <QrCode className="h-10 w-10 text-primary" />
-          <span className="font-semibold text-lg">Scan QR Code</span>
+          <span className="font-semibold text-lg text-primary">Scan QR Code</span>
           <span className="text-sm text-muted-foreground">Faster for multiple entries</span>
         </Button>
         <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center justify-center text-center" onClick={() => setEntryMethod("manual")}>
-          <ListPlus className="h-10 w-10 text-primary" />
-          <span className="font-semibold text-lg">Add Product Manually</span>
+          <ListPlus className="h-10 w-10 text-green-600" />
+          <span className="font-semibold text-lg text-green-600">Add Product Manually</span>
           <span className="text-sm text-muted-foreground">Enter all the details by hand</span>
         </Button>
       </CardContent>
