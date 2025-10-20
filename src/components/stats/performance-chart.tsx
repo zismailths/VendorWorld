@@ -30,11 +30,11 @@ const chartConfig = {
   },
   sold: {
     label: "Sold",
-    color: "hsl(142.1 76.2% 36.3%)", // Green
+    color: "hsl(var(--chart-1))", // Blue
   },
   withdrawn: {
     label: "Withdrawn",
-    color: "hsl(0 84.2% 60.2%)", // Red
+    color: "hsl(var(--destructive))", // Red
   },
 }
 
