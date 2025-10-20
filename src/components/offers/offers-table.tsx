@@ -1,9 +1,10 @@
 
+
 "use client";
 
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Pencil, Trash2, Eye, EyeOff, Copy } from 'lucide-react';
+import { Pencil, Trash2, Eye, EyeOff, Copy, ChevronDown, ChevronRight } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -43,12 +44,15 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import type { SellerOffer } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
+import type { GroupedOffer } from '@/app/(main)/offers/page';
+
 
 type OffersTableProps = {
-  offers: SellerOffer[];
+  groupedOffers: GroupedOffer[];
 };
 
-export function OffersTable({ offers }: OffersTableProps) {
+export function OffersTable({ groupedOffers }: OffersTableProps) {
   const { toast } = useToast();
   const [editingOffer, setEditingOffer] = useState<SellerOffer | null>(null);
   const [deletingOffer, setDeletingOffer] = useState<SellerOffer | null>(null);
@@ -134,97 +138,123 @@ export function OffersTable({ offers }: OffersTableProps) {
         <Table>
           <TableHeader>
             <TableRow>
+              <TableHead className="w-[24px]"></TableHead>
               <TableHead className="w-[80px]">Image</TableHead>
-              <TableHead>Model & Serial</TableHead>
-              <TableHead className="text-right">Offered Price</TableHead>
-              <TableHead className="text-center">Stock Left</TableHead>
-              <TableHead className="text-center">Rank</TableHead>
+              <TableHead>Model</TableHead>
+              <TableHead className="text-right">Avg. Price</TableHead>
+              <TableHead className="text-center">Total Stock</TableHead>
+              <TableHead className="text-center">Best Rank</TableHead>
               <TableHead className="text-right">Rank #1 Price</TableHead>
-              <TableHead className="text-center">Views</TableHead>
-              <TableHead className="text-center">Status</TableHead>
-              <TableHead className="w-[140px] text-right">Actions</TableHead>
+              <TableHead className="text-center">Views (24h)</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
-            {offers.map((offer) => (
-              <TableRow key={offer.id}>
-                <TableCell>
-                  <Image
-                    src={offer.imageUrl}
-                    alt={offer.model}
-                    width={64}
-                    height={48}
-                    className="rounded-md object-cover"
-                    data-ai-hint="modern laptop"
-                  />
-                </TableCell>
-                <TableCell>
-                  <div className="font-medium">{offer.model}</div>
-                  <div className="text-sm text-muted-foreground font-mono">{offer.serial}</div>
-                </TableCell>
-                <TableCell className="text-right font-medium">{formatCurrency(offer.price)}</TableCell>
-                <TableCell className="text-center font-medium">{offer.quantity ?? 1}</TableCell>
-                <TableCell className="text-center">
-                  <Badge variant={offer.rank === 1 ? 'default' : 'secondary'} className={cn(offer.rank === 1 && 'bg-amber-500 hover:bg-amber-600 text-white')}>
-                    #{offer.rank}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">{formatCurrency(offer.rank1Price)}</TableCell>
-                <TableCell className="text-center">
-                    <div className="flex items-center justify-center gap-1 text-sm text-muted-foreground">
-                        <Eye className="h-4 w-4" />
-                        <span>{offer.totalViews ?? 0}</span>
-                        <span className="text-xs text-green-500">(+{offer.dailyViews ?? 0})</span>
-                    </div>
-                </TableCell>
-                <TableCell className="text-center">
-                  <Badge variant={
-                    offer.status === 'ACTIVE' ? 'secondary' : offer.status === 'SOLD' ? 'default' : 'destructive'
-                  } className={cn(offer.status === 'SOLD' && 'bg-green-600 hover:bg-green-700')}>
-                    {offer.status}
-                  </Badge>
-                </TableCell>
-                <TableCell className="text-right">
-                   <div className="flex items-center justify-end gap-0.5">
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditClick(offer)}>
-                                    <Pencil className="h-4 w-4" />
-                                    <span className="sr-only">Edit</span>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Edit</TooltipContent>
-                        </Tooltip>
-                         <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleHideClick(offer)}>
-                                    <EyeOff className="h-4 w-4" />
-                                    <span className="sr-only">Hide</span>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Hide</TooltipContent>
-                        </Tooltip>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleDeleteClick(offer)}>
-                                    <Trash2 className="h-4 w-4" />
-                                    <span className="sr-only">Delete</span>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Delete</TooltipContent>
-                        </Tooltip>
-                         <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopyClick(offer)}>
-                                    <Copy className="h-4 w-4" />
-                                    <span className="sr-only">Copy</span>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>Copy</TooltipContent>
-                        </Tooltip>
-                   </div>
-                </TableCell>
-              </TableRow>
+            {groupedOffers.map((group) => (
+              <Collapsible asChild key={group.modelId}>
+                <>
+                <TableRow className="font-semibold">
+                    <TableCell>
+                      <CollapsibleTrigger asChild>
+                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                              <ChevronRight className="h-4 w-4 transition-transform [&[data-state=open]]:rotate-90" />
+                          </Button>
+                      </CollapsibleTrigger>
+                    </TableCell>
+                    <TableCell>
+                    <Image
+                        src={group.imageUrl}
+                        alt={group.model}
+                        width={64}
+                        height={48}
+                        className="rounded-md object-cover"
+                        data-ai-hint="modern laptop"
+                    />
+                    </TableCell>
+                    <TableCell>{group.model}</TableCell>
+                    <TableCell className="text-right">{formatCurrency(group.averagePrice)}</TableCell>
+                    <TableCell className="text-center">{group.totalQuantity}</TableCell>
+                    <TableCell className="text-center">
+                        <Badge variant={group.bestRank === 1 ? 'default' : 'secondary'} className={cn(group.bestRank === 1 && 'bg-amber-500 hover:bg-amber-600 text-white')}>
+                            #{group.bestRank}
+                        </Badge>
+                    </TableCell>
+                    <TableCell className="text-right">{formatCurrency(group.rank1Price)}</TableCell>
+                    <TableCell className="text-center">
+                        <div className="flex items-center justify-center gap-1 text-sm">
+                            <Eye className="h-4 w-4 text-muted-foreground" />
+                            <span>{group.totalViews}</span>
+                            <span className="text-xs text-green-500">(+{group.dailyViews})</span>
+                        </div>
+                    </TableCell>
+                </TableRow>
+                <CollapsibleContent asChild>
+                    <>
+                    {group.offers.map((offer) => (
+                        <TableRow key={offer.id} className="bg-muted/50 hover:bg-muted">
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                            <TableCell>
+                                <div className="text-sm text-muted-foreground font-mono">{offer.serial}</div>
+                            </TableCell>
+                            <TableCell className="text-right text-sm text-muted-foreground">{formatCurrency(offer.price)}</TableCell>
+                            <TableCell className="text-center text-sm text-muted-foreground">{offer.quantity ?? 1}</TableCell>
+                            <TableCell className="text-center">
+                                <Badge variant='outline'>#{offer.rank}</Badge>
+                            </TableCell>
+                             <TableCell className="text-right"></TableCell>
+                            <TableCell className="text-center">
+                                 <Badge variant={
+                                    offer.status === 'ACTIVE' ? 'secondary' : offer.status === 'SOLD' ? 'default' : 'destructive'
+                                } className={cn(offer.status === 'SOLD' && 'bg-green-600 hover:bg-green-700')}>
+                                    {offer.status}
+                                </Badge>
+                            </TableCell>
+                            <TableCell className="text-right">
+                                <div className="flex items-center justify-end gap-0.5">
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditClick(offer)}>
+                                                    <Pencil className="h-4 w-4" />
+                                                    <span className="sr-only">Edit</span>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Edit</TooltipContent>
+                                        </Tooltip>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleHideClick(offer)}>
+                                                    <EyeOff className="h-4 w-4" />
+                                                    <span className="sr-only">Hide</span>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Hide</TooltipContent>
+                                        </Tooltip>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleDeleteClick(offer)}>
+                                                    <Trash2 className="h-4 w-4" />
+                                                    <span className="sr-only">Delete</span>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Delete</TooltipContent>
+                                        </Tooltip>
+                                        <Tooltip>
+                                            <TooltipTrigger asChild>
+                                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleCopyClick(offer)}>
+                                                    <Copy className="h-4 w-4" />
+                                                    <span className="sr-only">Copy</span>
+                                                </Button>
+                                            </TooltipTrigger>
+                                            <TooltipContent>Copy</TooltipContent>
+                                        </Tooltip>
+                                </div>
+                            </TableCell>
+                        </TableRow>
+                     ))}
+                     </>
+                </CollapsibleContent>
+                </>
+              </Collapsible>
             ))}
           </TableBody>
         </Table>
