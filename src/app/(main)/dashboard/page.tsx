@@ -54,13 +54,13 @@ export default function DashboardPage() {
             <div className="lg:col-span-2">
                 <SalesChart />
             </div>
-            <div className="lg:col-span-1">
-                <PerformanceChart />
+             <div className="lg:col-span-1">
+                <AlertsPanel />
             </div>
         </div>
          <div className="grid gap-6 lg:grid-cols-3">
-             <div className="lg:col-span-2">
-                <AlertsPanel />
+            <div className="lg:col-span-1">
+                <PerformanceChart />
             </div>
          </div>
       </main>
