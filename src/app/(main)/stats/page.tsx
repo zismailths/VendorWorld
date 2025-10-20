@@ -8,6 +8,7 @@ import { TrendingUp, TrendingDown, Target, RefreshCw, Download, Laptop, HandCoin
 import { stats } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { SalesChart } from "@/components/dashboard/sales-chart";
 
 const KeyMetricCard = ({ title, value, icon: Icon, trend, iconColor, className }: { title: string, value: string, icon: React.ElementType, trend: string, iconColor?: string, className?: string }) => (
     <Card className={cn("text-white transition-colors", className)}>
@@ -91,19 +92,9 @@ export default function StatsPage() {
                         className="bg-green-400 hover:bg-green-500"
                     />
                 </div>
-                <div className="grid gap-6 md:grid-cols-2">
+                <div className="grid gap-6 lg:grid-cols-2">
                     <PerformanceChart />
-                    <Card>
-                         <CardHeader>
-                            <CardTitle className="font-headline text-xl">More Stats Coming Soon</CardTitle>
-                            <CardDescription>We're working on adding more detailed analytics.</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                           <div className="flex items-center justify-center h-48 bg-muted/50 rounded-lg">
-                                <p className="text-muted-foreground">Future charts will appear here.</p>
-                           </div>
-                        </CardContent>
-                    </Card>
+                    <SalesChart />
                 </div>
             </main>
         </>
