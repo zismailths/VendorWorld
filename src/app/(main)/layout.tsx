@@ -20,7 +20,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
       <Sidebar side="left" variant="sidebar" collapsible="icon">
         <SidebarHeader className="border-b border-sidebar-border">
           <div className="flex items-center gap-2">
-            <Logo className="size-7 text-sidebar-foreground" />
+            <Logo className="size-7 text-primary" />
             <div className="group-data-[state=expanded]:block hidden">
               <h1 className="font-headline text-lg font-semibold text-sidebar-foreground">
                 VendorWorld

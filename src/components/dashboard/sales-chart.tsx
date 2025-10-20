@@ -17,7 +17,7 @@ import { salesData } from "@/lib/data";
 const chartConfig = {
   revenue: {
     label: "Revenue",
-    color: "hsl(var(--primary))",
+    color: "hsl(var(--chart-1))",
   },
 };
 
