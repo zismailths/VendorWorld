@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -14,14 +15,20 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import type { SellerOffer } from "@/lib/types";
-import Image from "next/image";
+import { CompetitorsTable } from "@/components/competitors/competitors-table";
 
 export default function CompetitorsPage() {
   const [selectedOffer, setSelectedOffer] = useState<SellerOffer | null>(
     sellerOffers.find((o) => o.status === "ACTIVE") || null
   );
 
-  const activeOffers = sellerOffers.filter((o) => o.status === "ACTIVE");
+  const activeOffers = sellerOffers.filter((o) => o.isSellerOffer && o.status === "ACTIVE");
+  
+  const competitorOffers = selectedOffer
+    ? sellerOffers.filter(
+        (o) => o.modelId === selectedOffer.modelId && !o.isSellerOffer
+      ).sort((a,b) => a.rank - b.rank).slice(0, 10)
+    : [];
 
   return (
     <>
@@ -66,6 +73,7 @@ export default function CompetitorsPage() {
         </Card>
 
         {selectedOffer ? (
+          <>
             <Card>
                 <CardHeader>
                     <CardTitle>Competitive Analysis for: <span className="text-primary">{selectedOffer.model}</span></CardTitle>
@@ -85,6 +93,8 @@ export default function CompetitorsPage() {
                     </div>
                 </CardContent>
             </Card>
+            <CompetitorsTable offers={competitorOffers} />
+          </>
         ) : (
              <Card>
                 <CardHeader>

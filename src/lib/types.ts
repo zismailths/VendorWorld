@@ -1,5 +1,7 @@
+
 export type SellerOffer = {
   id: string;
+  isSellerOffer?: boolean;
   model: string;
   modelId: string;
   serial: string;
