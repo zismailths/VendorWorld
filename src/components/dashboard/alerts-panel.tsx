@@ -1,14 +1,23 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { AlertTriangle, Trophy } from "lucide-react";
-import { alerts } from "@/lib/data";
-import { formatDistanceToNow } from "date-fns";
 
-const alertIcons = {
-  RANK_1: <Trophy className="h-5 w-5 text-amber-500" />,
+"use client";
+
+import { useContext } from "react";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { AlertTriangle, Trophy, PlusCircle } from "lucide-react";
+import { formatDistanceToNow } from "date-fns";
+import { AlertContext } from "@/context/alert-context";
+import type { Alert } from "@/lib/types";
+
+const alertIcons: Record<Alert['type'], JSX.Element> = {
+  RANK_1: <Trophy className="h-5 w-5 text-green-500" />,
   UNDERCUT: <AlertTriangle className="h-5 w-5 text-destructive" />,
+  NEW_OFFER: <PlusCircle className="h-5 w-5 text-amber-500" />
 };
 
 export function AlertsPanel() {
+  const { alerts } = useContext(AlertContext);
+  const recentAlerts = alerts.slice(0, 3); // Show only the top 3 on the dashboard
+
   return (
     <Card className="col-span-2 h-full transition-shadow hover:shadow-lg">
       <CardHeader>
@@ -17,7 +26,7 @@ export function AlertsPanel() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {alerts.map((alert) => (
+          {recentAlerts.map((alert) => (
             <div key={alert.id} className="flex items-start gap-4">
               <div className="mt-1">{alertIcons[alert.type]}</div>
               <div className="flex-1">

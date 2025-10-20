@@ -1,15 +1,15 @@
 
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useContext } from "react";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { alerts as initialAlerts } from "@/lib/data";
 import { formatDistanceToNow } from "date-fns";
-import { AlertTriangle, Trophy, RefreshCw, PlusCircle } from "lucide-react";
+import { AlertTriangle, Trophy, RefreshCw, PlusCircle, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { Alert } from "@/lib/types";
+import { AlertContext } from "@/context/alert-context";
 
 const alertIcons: Record<Alert['type'], JSX.Element> = {
   RANK_1: <Trophy className="h-5 w-5 text-green-600" />,
@@ -18,28 +18,31 @@ const alertIcons: Record<Alert['type'], JSX.Element> = {
 };
 
 const alertBgColors: Record<Alert['type'], string> = {
-    RANK_1: "bg-green-100 border-green-200 hover:bg-green-200",
-    UNDERCUT: "bg-red-100 border-red-200 hover:bg-red-200",
-    NEW_OFFER: "bg-amber-100 border-amber-200 hover:bg-amber-200",
+    RANK_1: "bg-green-100/60 border-green-200/60 hover:bg-green-100",
+    UNDERCUT: "bg-red-100/60 border-red-200/60 hover:bg-red-100",
+    NEW_OFFER: "bg-amber-100/60 border-amber-200/60 hover:bg-amber-100",
 }
 
 export default function AlertsPage() {
-  const [currentAlerts, setCurrentAlerts] = useState<Alert[]>(initialAlerts);
+  const { alerts, setAlerts, refreshAlerts } = useContext(AlertContext);
   const [isLoading, setIsLoading] = useState(false);
   const [refreshKey, setRefreshKey] = useState(0);
 
   const handleRefresh = useCallback(() => {
     setIsLoading(true);
-    setCurrentAlerts([]); // Clear alerts to give visual feedback
-
+    // Visually clear alerts and then bring them back to simulate refresh
+    setAlerts([]);
     setTimeout(() => {
-        // In a real app, you'd re-fetch data here.
-        // For now, we reset to the initial static data and update the key.
-        setCurrentAlerts(initialAlerts); 
+        refreshAlerts();
         setRefreshKey(prev => prev + 1);
         setIsLoading(false);
     }, 500); // Simulate a network delay
-  }, []);
+  }, [refreshAlerts, setAlerts]);
+
+  const handleMarkAsDone = (alertId: string) => {
+    setAlerts(prevAlerts => prevAlerts.filter(alert => alert.id !== alertId));
+  };
+
 
   return (
     <>
@@ -60,7 +63,7 @@ export default function AlertsPage() {
             </CardHeader>
             <CardContent>
                 <div className="space-y-4">
-                {currentAlerts.map((alert) => (
+                {alerts.map((alert) => (
                     <div key={alert.id} className={cn("flex items-start gap-4 p-4 border rounded-lg transition-colors", alertBgColors[alert.type])}>
                     <div className="mt-1">{alertIcons[alert.type]}</div>
                     <div className="flex-1">
@@ -69,9 +72,13 @@ export default function AlertsPage() {
                         {formatDistanceToNow(new Date(alert.createdAt), { addSuffix: true })}
                         </p>
                     </div>
+                     <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => handleMarkAsDone(alert.id)}>
+                        <Check className="h-4 w-4" />
+                        <span className="sr-only">Mark as done</span>
+                    </Button>
                     </div>
                 ))}
-                {(currentAlerts.length === 0 || isLoading) && (
+                {(alerts.length === 0 || isLoading) && (
                     <div className="text-center text-muted-foreground py-8">
                         {isLoading ? "Refreshing alerts..." : "No new alerts."}
                     </div>
