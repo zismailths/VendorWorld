@@ -1,3 +1,4 @@
+
 "use client"
 
 import Link from 'next/link';
@@ -53,7 +54,7 @@ export function MainNav() {
                 >
                   <Link href={item.href}>
                     <item.icon />
-                    <span>{item.label}</span>
+                    <span className="group-data-[state=collapsed]:hidden">{item.label}</span>
                   </Link>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -73,7 +74,7 @@ export function MainNav() {
               >
                 <Link href={item.href}>
                   <item.icon />
-                  <span>{item.label}</span>
+                  <span className="group-data-[state=collapsed]:hidden">{item.label}</span>
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
@@ -95,9 +96,9 @@ export function MainNav() {
               >
                 <Link href={item.href}>
                   <item.icon />
-                  <span>{item.label}</span>
+                  <span className="group-data-[state=collapsed]:hidden">{item.label}</span>
                   {item.badge && (
-                     <span className="ml-auto inline-flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs font-medium text-destructive-foreground">
+                     <span className="ml-auto inline-flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs font-medium text-destructive-foreground group-data-[state=collapsed]:hidden">
                         {item.badge}
                      </span>
                   )}
