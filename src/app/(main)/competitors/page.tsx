@@ -46,33 +46,35 @@ export default function CompetitorsPage() {
         </Button>
       </PageHeader>
       <main className="p-6 pt-0 space-y-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>Select Your Product</CardTitle>
-            <CardDescription>
-              Choose one of your active offers to see how it stacks up against the competition.
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="w-full md:w-[300px] justify-between">
-                  <span>{selectedOffer ? selectedOffer.model : "Select an offer"}</span>
-                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-full md:w-[300px]">
-                {activeOffers.map((offer) => (
-                  <DropdownMenuItem key={offer.id} onSelect={() => setSelectedOffer(offer)}>
-                    {offer.model} ({offer.serial})
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          </CardContent>
-        </Card>
+        {!selectedOffer && (
+             <Card>
+                <CardHeader>
+                    <CardTitle>Select Your Product</CardTitle>
+                    <CardDescription>
+                    Choose one of your active offers to see how it stacks up against the competition.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="w-full md:w-[300px] justify-between">
+                        <span>{selectedOffer ? selectedOffer.model : "Select an offer"}</span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-full md:w-[300px]">
+                        {activeOffers.map((offer) => (
+                        <DropdownMenuItem key={offer.id} onSelect={() => setSelectedOffer(offer)}>
+                            {offer.model} ({offer.serial})
+                        </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                </CardContent>
+             </Card>
+        )}
 
-        {selectedOffer ? (
+        {selectedOffer && (
           <>
             <Card>
                 <CardHeader>
@@ -93,19 +95,33 @@ export default function CompetitorsPage() {
                     </div>
                 </CardContent>
             </Card>
+
+            <Card>
+                <CardContent className="p-4 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium">Viewing analysis for:</p>
+                        <p className="text-sm font-semibold">{selectedOffer.model} ({selectedOffer.serial})</p>
+                    </div>
+                    <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="outline" className="justify-between w-auto">
+                        <span>Change Product</span>
+                        <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                        {activeOffers.map((offer) => (
+                        <DropdownMenuItem key={offer.id} onSelect={() => setSelectedOffer(offer)}>
+                            {offer.model} ({offer.serial})
+                        </DropdownMenuItem>
+                        ))}
+                    </DropdownMenuContent>
+                    </DropdownMenu>
+                </CardContent>
+            </Card>
+
             <CompetitorsTable offers={competitorOffers} />
           </>
-        ) : (
-             <Card>
-                <CardHeader>
-                    <CardTitle>No Offer Selected</CardTitle>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex items-center justify-center h-64 bg-muted/50 rounded-lg">
-                        <p className="text-muted-foreground">Select an active offer to see competitor data.</p>
-                    </div>
-                </CardContent>
-             </Card>
         )}
       </main>
     </>
