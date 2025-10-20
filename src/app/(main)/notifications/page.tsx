@@ -18,9 +18,9 @@ const alertIcons: Record<Alert['type'], JSX.Element> = {
 };
 
 const alertBgColors: Record<Alert['type'], string> = {
-    RANK_1: "bg-green-100 border-green-200 hover:bg-green-200/60",
-    UNDERCUT: "bg-red-100 border-red-200 hover:bg-red-200/60",
-    NEW_OFFER: "bg-amber-100 border-amber-200 hover:bg-amber-200/60",
+    RANK_1: "bg-green-100 border-green-200 hover:bg-green-200",
+    UNDERCUT: "bg-red-100 border-red-200 hover:bg-red-200",
+    NEW_OFFER: "bg-amber-100 border-amber-200 hover:bg-amber-200",
 }
 
 export default function AlertsPage() {
