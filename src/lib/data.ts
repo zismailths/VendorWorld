@@ -3,8 +3,8 @@ import type { UserProfile, LaptopModel, SellerOffer, Alert } from './types';
 import { PlaceHolderImages } from './placeholder-images';
 
 export const userProfile: UserProfile = {
-  name: 'Alex Vendor',
-  email: 'alex@vendor.co',
+  name: 'INeuron',
+  email: 'ineuron@vendorworld.com',
   phone: '123-456-7890',
   avatarUrl: PlaceHolderImages.find(p => p.id === 'user-avatar')?.imageUrl || '',
 };
