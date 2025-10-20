@@ -77,32 +77,14 @@ export default function CompetitorsPage() {
         {selectedOffer && (
           <>
             <Card>
-                <CardHeader>
+                <CardHeader className="flex-row items-start justify-between">
+                  <div>
                     <CardTitle>Competitive Analysis for: <span className="text-primary">{selectedOffer.model}</span></CardTitle>
                     <CardDescription>
                     Your current rank is <span className="font-bold text-primary">#{selectedOffer.rank}</span> with a price of <span className="font-bold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</span>.
                     </CardDescription>
-                </CardHeader>
-                <CardContent>
-                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left p-8 bg-muted/50 rounded-lg">
-                        <Image src={selectedOffer.imageUrl} alt={selectedOffer.model} width={150} height={150} className="rounded-lg object-cover" data-ai-hint="modern laptop" />
-                        <div>
-                            <h3 className="text-2xl font-bold text-primary">Rank #{selectedOffer.rank}</h3>
-                            <p className="text-lg font-semibold">Your Price: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</p>
-                            <p className="text-muted-foreground">The Rank #1 price for this model is <span className="font-semibold">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.rank1Price)}</span>.</p>
-                             <p className="text-muted-foreground">You are <span className="font-semibold text-destructive">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price - selectedOffer.rank1Price)}</span> away from the top spot.</p>
-                        </div>
-                    </div>
-                </CardContent>
-            </Card>
-
-            <Card>
-                <CardContent className="p-4 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <p className="text-sm font-medium">Viewing analysis for:</p>
-                        <p className="text-sm font-semibold">{selectedOffer.model} ({selectedOffer.serial})</p>
-                    </div>
-                    <DropdownMenu>
+                  </div>
+                  <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Button variant="outline" className="justify-between w-auto">
                         <span>Change Product</span>
@@ -117,6 +99,17 @@ export default function CompetitorsPage() {
                         ))}
                     </DropdownMenuContent>
                     </DropdownMenu>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left p-8 bg-muted/50 rounded-lg">
+                        <Image src={selectedOffer.imageUrl} alt={selectedOffer.model} width={150} height={150} className="rounded-lg object-cover" data-ai-hint="modern laptop" />
+                        <div>
+                            <h3 className="text-2xl font-bold text-primary">Rank #{selectedOffer.rank}</h3>
+                            <p className="text-lg font-semibold">Your Price: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</p>
+                            <p className="text-muted-foreground">The Rank #1 price for this model is <span className="font-semibold">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.rank1Price)}</span>.</p>
+                             <p className="text-muted-foreground">You are <span className="font-semibold text-destructive">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price - selectedOffer.rank1Price)}</span> away from the top spot.</p>
+                        </div>
+                    </div>
                 </CardContent>
             </Card>
 
