@@ -21,7 +21,7 @@ export function SummaryCard({ title, value, Icon, description, iconColor, classN
       </CardHeader>
       <CardContent>
         <div className="text-2xl font-bold">{value}</div>
-        {description && <p className="text-xs text-muted-foreground">{description}</p>}
+        {description && <p className={cn("text-xs", className?.includes("text-white") ? "text-white/80" : "text-muted-foreground")}>{description}</p>}
       </CardContent>
     </Card>
   );

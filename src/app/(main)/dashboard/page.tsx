@@ -21,32 +21,32 @@ export default function DashboardPage() {
             value={stats.totalActiveOffers.toString()}
             Icon={Laptop}
              description="+12% from last month"
-             iconColor="text-sky-500"
-             className="bg-sky-50 hover:bg-sky-100 dark:bg-sky-900/50 dark:hover:bg-sky-900"
+             iconColor="text-white/90"
+             className="bg-sky-400 text-white hover:bg-sky-500"
           />
           <SummaryCard
             title="Active Listings"
             value={stats.totalLaptopsSold.toString()}
             Icon={HandCoins}
             description="+8% from last month"
-            iconColor="text-emerald-500"
-            className="bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/50 dark:hover:bg-emerald-900"
+            iconColor="text-white/90"
+            className="bg-emerald-400 text-white hover:bg-emerald-500"
           />
            <SummaryCard
             title="Average Rank"
             value={`#${stats.averageRank}`}
             Icon={BarChart}
             description="-2 positions"
-            iconColor="text-amber-500"
-            className="bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/50 dark:hover:bg-amber-900"
+            iconColor="text-white/90"
+            className="bg-amber-400 text-white hover:bg-amber-500"
           />
           <SummaryCard
             title="Monthly Revenue"
             value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(stats.lifetimeRevenue)}
             Icon={IndianRupee}
             description="+18% from last month"
-            iconColor="text-violet-500"
-            className="bg-violet-50 hover:bg-violet-100 dark:bg-violet-900/50 dark:hover:bg-violet-900"
+            iconColor="text-white/90"
+            className="bg-violet-400 text-white hover:bg-violet-500"
           />
         </div>
 
