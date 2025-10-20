@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState, useCallback, useContext } from "react";
+import { useState, useCallback, useContext, useEffect } from "react";
 import { PageHeader } from "@/components/shared/page-header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -18,10 +18,20 @@ const alertIcons: Record<Alert['type'], JSX.Element> = {
 };
 
 const alertBgColors: Record<Alert['type'], string> = {
-    RANK_1: "bg-green-100/60 border-green-200/60 hover:bg-green-100",
-    UNDERCUT: "bg-red-100/60 border-red-200/60 hover:bg-red-100",
-    NEW_OFFER: "bg-amber-100/60 border-amber-200/60 hover:bg-amber-100",
+    RANK_1: "bg-green-100/60 border-green-200/60 hover:bg-green-200/60",
+    UNDERCUT: "bg-red-100/60 border-red-200/60 hover:bg-red-200/60",
+    NEW_OFFER: "bg-amber-100/60 border-amber-200/60 hover:bg-amber-200/60",
 }
+
+const ClientTime = ({ date }: { date: string }) => {
+  const [timeAgo, setTimeAgo] = useState("");
+
+  useEffect(() => {
+    setTimeAgo(formatDistanceToNow(new Date(date), { addSuffix: true }));
+  }, [date]);
+
+  return <>{timeAgo}</>;
+};
 
 export default function AlertsPage() {
   const { alerts, setAlerts, refreshAlerts } = useContext(AlertContext);
@@ -69,7 +79,7 @@ export default function AlertsPage() {
                     <div className="flex-1">
                         <p className="text-sm font-medium">{alert.message}</p>
                         <p className="text-xs text-muted-foreground">
-                        {formatDistanceToNow(new Date(alert.createdAt), { addSuffix: true })}
+                            <ClientTime date={alert.createdAt} />
                         </p>
                     </div>
                      <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0" onClick={() => handleMarkAsDone(alert.id)}>

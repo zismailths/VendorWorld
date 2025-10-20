@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import { AlertTriangle, Trophy, PlusCircle } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
@@ -15,6 +15,16 @@ const alertIcons: Record<Alert['type'], JSX.Element> = {
   RANK_1: <Trophy className="h-5 w-5 text-green-600" />,
   UNDERCUT: <AlertTriangle className="h-5 w-5 text-red-600" />,
   NEW_OFFER: <PlusCircle className="h-5 w-5 text-amber-600" />
+};
+
+const ClientTime = ({ date }: { date: string }) => {
+  const [timeAgo, setTimeAgo] = useState("");
+
+  useEffect(() => {
+    setTimeAgo(formatDistanceToNow(new Date(date), { addSuffix: true }));
+  }, [date]);
+
+  return <>{timeAgo}</>;
 };
 
 export function AlertsPanel() {
@@ -46,7 +56,7 @@ export function AlertsPanel() {
               <div className="flex-1">
                 <p className="text-sm font-medium">{alert.message}</p>
                 <p className="text-xs text-muted-foreground">
-                  {formatDistanceToNow(new Date(alert.createdAt), { addSuffix: true })}
+                  <ClientTime date={alert.createdAt} />
                 </p>
               </div>
             </div>
