@@ -62,9 +62,11 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
                     <h1 className="text-xl font-semibold font-headline tracking-tight">VendorWorld</h1>
                  </div>
                  <div className="flex shrink-0 items-center gap-2">
-                    <Button variant="default">
-                        <QrCode className="mr-2 h-4 w-4" />
-                        QR Scan
+                    <Button variant="default" asChild>
+                        <Link href="/qr-scan">
+                            <QrCode className="mr-2 h-4 w-4" />
+                            QR Scan
+                        </Link>
                     </Button>
                      <Button variant="success" asChild>
                         <Link href="/new-offer">

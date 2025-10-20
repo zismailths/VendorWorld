@@ -6,6 +6,7 @@ import { AlertsPanel } from "@/components/dashboard/alerts-panel";
 import { SalesChart } from "@/components/dashboard/sales-chart";
 import { stats } from "@/lib/data";
 import { PerformanceChart } from "@/components/stats/performance-chart";
+import Link from "next/link";
 
 export default function DashboardPage() {
   return (
@@ -55,12 +56,14 @@ export default function DashboardPage() {
                 <SalesChart />
             </div>
              <div className="lg:col-span-1">
-                <AlertsPanel />
+                <Link href="/notifications">
+                    <AlertsPanel />
+                </Link>
             </div>
         </div>
          <div className="grid gap-6 lg:grid-cols-3">
             <div className="lg:col-span-1">
-                <PerformanceChart />
+                 <PerformanceChart />
             </div>
          </div>
       </main>

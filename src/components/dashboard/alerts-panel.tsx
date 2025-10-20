@@ -10,7 +10,7 @@ const alertIcons = {
 
 export function AlertsPanel() {
   return (
-    <Card className="col-span-2">
+    <Card className="col-span-2 h-full transition-shadow hover:shadow-lg">
       <CardHeader>
         <CardTitle className="font-headline text-xl">Alerts</CardTitle>
         <CardDescription>Recent notifications about your offers.</CardDescription>

@@ -206,6 +206,15 @@ export const salesData = [
     { month: 'Jun', sold: 4, revenue: 510000 },
 ];
 
+export const activeProductsData = [
+    { month: 'Jan', count: 18 },
+    { month: 'Feb', count: 17 },
+    { month: 'Mar', count: 20 },
+    { month: 'Apr', count: 18 },
+    { month: 'May', count: 22 },
+    { month: 'Jun', count: 25 },
+];
+
 export const stats = {
     averageRank: 2.1,
     soldVsWithdrawn: {
