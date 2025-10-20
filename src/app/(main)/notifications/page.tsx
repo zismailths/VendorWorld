@@ -12,20 +12,21 @@ import { cn } from "@/lib/utils";
 import type { Alert } from "@/lib/types";
 
 const alertIcons: Record<Alert['type'], JSX.Element> = {
-  RANK_1: <Trophy className="h-5 w-5 text-amber-600" />,
+  RANK_1: <Trophy className="h-5 w-5 text-green-600" />,
   UNDERCUT: <AlertTriangle className="h-5 w-5 text-red-600" />,
-  NEW_OFFER: <PlusCircle className="h-5 w-5 text-green-600" />,
+  NEW_OFFER: <PlusCircle className="h-5 w-5 text-amber-600" />,
 };
 
 const alertBgColors: Record<Alert['type'], string> = {
-    RANK_1: "bg-amber-50 border-amber-200",
+    RANK_1: "bg-green-50 border-green-200",
     UNDERCUT: "bg-red-50 border-red-200",
-    NEW_OFFER: "bg-green-50 border-green-200",
+    NEW_OFFER: "bg-amber-50 border-amber-200",
 }
 
 export default function AlertsPage() {
   const [currentAlerts, setCurrentAlerts] = useState<Alert[]>(initialAlerts);
   const [isLoading, setIsLoading] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const handleRefresh = useCallback(() => {
     setIsLoading(true);
@@ -33,8 +34,9 @@ export default function AlertsPage() {
 
     setTimeout(() => {
         // In a real app, you'd re-fetch data here.
-        // For now, we reset to the initial static data.
+        // For now, we reset to the initial static data and update the key.
         setCurrentAlerts(initialAlerts); 
+        setRefreshKey(prev => prev + 1);
         setIsLoading(false);
     }, 500); // Simulate a network delay
   }, []);
@@ -50,7 +52,7 @@ export default function AlertsPage() {
           Refresh
         </Button>
       </PageHeader>
-      <main className="p-6 pt-0">
+      <main className="p-6 pt-0" key={refreshKey}>
         <Card>
             <CardHeader>
                 <CardTitle>Recent Alerts</CardTitle>
@@ -81,3 +83,4 @@ export default function AlertsPage() {
     </>
   );
 }
+
