@@ -1,12 +1,12 @@
 
 "use client"
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { PageHeader } from "@/components/shared/page-header";
 import { PerformanceChart } from "@/components/stats/performance-chart";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { TrendingUp, TrendingDown, Target, RefreshCw, Download, Laptop, HandCoins, IndianRupee } from "lucide-react";
-import { stats } from "@/lib/data";
+import { stats as initialStats } from "@/lib/data";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SalesChart } from "@/components/dashboard/sales-chart";
@@ -30,9 +30,16 @@ const KeyMetricCard = ({ title, value, icon: Icon, trend, iconColor, className }
 
 export default function StatsPage() {
     const pageRef = React.useRef<HTMLDivElement>(null);
+    const [stats, setStats] = useState(initialStats);
+    // Key to force re-render of children when refreshing
+    const [refreshKey, setRefreshKey] = useState(0);
 
     const handleRefresh = () => {
-        window.location.reload();
+        // In a real app, you would re-fetch data here.
+        // For this demo, we'll just update the key to simulate a refresh.
+        setRefreshKey(prevKey => prevKey + 1);
+        // If data could change, you would update state:
+        // setStats(newlyFetchedStats); 
     };
 
     const handleExport = () => {
@@ -65,7 +72,7 @@ export default function StatsPage() {
                     Export
                 </Button>
             </PageHeader>
-            <main className="p-6 pt-0 grid gap-6" ref={pageRef}>
+            <main className="p-6 pt-0 grid gap-6" ref={pageRef} key={refreshKey}>
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <KeyMetricCard 
                         title="Average Rank" 
