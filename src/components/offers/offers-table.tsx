@@ -36,6 +36,12 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -96,7 +102,7 @@ export function OffersTable({ offers }: OffersTableProps) {
   };
 
   return (
-    <>
+    <TooltipProvider>
       <div className="border rounded-lg">
         <Table>
           <TableHeader>
@@ -108,7 +114,7 @@ export function OffersTable({ offers }: OffersTableProps) {
               <TableHead className="text-right">Rank #1 Price</TableHead>
               <TableHead className="text-center">Views</TableHead>
               <TableHead className="text-center">Status</TableHead>
-              <TableHead className="w-[50px] text-right">Actions</TableHead>
+              <TableHead className="w-[100px] text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -150,21 +156,26 @@ export function OffersTable({ offers }: OffersTableProps) {
                   </Badge>
                 </TableCell>
                 <TableCell className="text-right">
-                  <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <MoreHorizontal className="h-4 w-4" />
-                      </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                      <DropdownMenuItem onSelect={() => handleEditClick(offer)}>
-                        <Pencil className="mr-2 h-4 w-4" /> Edit Price
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onSelect={() => handleWithdrawClick(offer)} className="text-destructive focus:text-destructive">
-                        <Trash2 className="mr-2 h-4 w-4" /> Withdraw
-                      </DropdownMenuItem>
-                    </DropdownMenuContent>
-                  </DropdownMenu>
+                   <div className="flex items-center justify-end gap-2">
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => handleEditClick(offer)}>
+                                    <Pencil className="h-4 w-4" />
+                                    <span className="sr-only">Edit Price</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Edit Price</TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                             <TooltipTrigger asChild>
+                                <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleWithdrawClick(offer)}>
+                                    <Trash2 className="h-4 w-4" />
+                                    <span className="sr-only">Withdraw Offer</span>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>Withdraw Offer</TooltipContent>
+                        </Tooltip>
+                   </div>
                 </TableCell>
               </TableRow>
             ))}
@@ -222,6 +233,6 @@ export function OffersTable({ offers }: OffersTableProps) {
               </AlertDialogFooter>
           </AlertDialogContent>
       </AlertDialog>
-    </>
+    </TooltipProvider>
   );
 }
