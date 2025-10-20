@@ -69,10 +69,10 @@ export function OffersTable({ offers }: OffersTableProps) {
   };
   
   const handleCopyClick = (offer: SellerOffer) => {
-    console.log(`Copying offer ${offer.id}`);
+    localStorage.setItem('copiedOffer', JSON.stringify(offer));
     toast({
         title: "Offer Copied",
-        description: `Details for ${offer.model} have been copied.`,
+        description: `Details for ${offer.model} have been copied for auto-fill.`,
     });
   };
 
@@ -290,3 +290,5 @@ export function OffersTable({ offers }: OffersTableProps) {
     </TooltipProvider>
   );
 }
+
+    
