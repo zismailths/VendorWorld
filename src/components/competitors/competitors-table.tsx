@@ -22,9 +22,9 @@ type CompetitorsTableProps = {
 
 export function CompetitorsTable({ offers }: CompetitorsTableProps) {
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-IN', {
+    return new Intl.NumberFormat('en-PK', {
       style: 'currency',
-      currency: 'INR',
+      currency: 'PKR',
       minimumFractionDigits: 0,
     }).format(value);
   };

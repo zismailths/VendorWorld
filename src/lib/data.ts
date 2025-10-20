@@ -57,9 +57,9 @@ export const sellerOffers: SellerOffer[] = [
     model: 'MacBook Pro 14" M3',
     modelId: 'mbp-14-m3',
     serial: 'A1B2C3D4E5F6',
-    price: 195000,
+    price: 197000,
     rank: 2,
-    rank1Price: 194500,
+    rank1Price: 195000,
     status: 'ACTIVE',
     condition: 'A',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-3')?.imageUrl || '',
@@ -120,7 +120,7 @@ export const sellerOffers: SellerOffer[] = [
   },
   {
     id: 'comp-xps15-2', isSellerOffer: false, model: 'Dell XPS 15 9530', modelId: 'xps-15-9530', serial: 'COMP004',
-    price: 152500, rank: 2, rank1Price: 152000, status: 'ACTIVE', condition: 'B',
+    price: 153000, rank: 2, rank1Price: 152000, status: 'ACTIVE', condition: 'B',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-2')?.imageUrl || '', createdAt: '2024-05-22T09:35:00.000Z',
   },
   {
@@ -137,7 +137,7 @@ export const sellerOffers: SellerOffer[] = [
   // Competitor Offers for MacBook Pro 14" M3
   {
     id: 'comp-mbp14-1', isSellerOffer: false, model: 'MacBook Pro 14" M3', modelId: 'mbp-14-m3', serial: 'COMP007',
-    price: 194500, rank: 1, rank1Price: 194500, status: 'ACTIVE', condition: 'A',
+    price: 195000, rank: 1, rank1Price: 195000, status: 'ACTIVE', condition: 'A',
     imageUrl: PlaceHolderImages.find(p => p.id === 'laptop-3')?.imageUrl || '', createdAt: '2024-05-22T12:00:00.000Z',
   },
 ];
@@ -153,7 +153,7 @@ export const alerts: Alert[] = [
     {
         id: '2',
         type: 'UNDERCUT',
-        message: 'Your Dell XPS 15 offer was undercut by ₹2,500.',
+        message: 'Your Dell XPS 15 offer was undercut by Rs 2,000.',
         createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
     },
 ];

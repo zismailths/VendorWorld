@@ -42,7 +42,7 @@ export default function DashboardPage() {
           />
           <SummaryCard
             title="Monthly Revenue"
-            value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(stats.lifetimeRevenue)}
+            value={new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(stats.lifetimeRevenue)}
             Icon={IndianRupee}
             description="+18% from last month"
             iconColor="text-white/90"

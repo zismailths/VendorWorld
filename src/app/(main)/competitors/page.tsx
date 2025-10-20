@@ -81,7 +81,7 @@ export default function CompetitorsPage() {
                   <div>
                     <CardTitle>Competitive Analysis for: <span className="text-primary">{selectedOffer.model}</span></CardTitle>
                     <CardDescription>
-                    Your current rank is <span className="font-bold text-primary">#{selectedOffer.rank}</span> with a price of <span className="font-bold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</span>.
+                    Your current rank is <span className="font-bold text-primary">#{selectedOffer.rank}</span> with a price of <span className="font-bold text-primary">{new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</span>.
                     </CardDescription>
                   </div>
                   <DropdownMenu>
@@ -105,9 +105,9 @@ export default function CompetitorsPage() {
                         <Image src={selectedOffer.imageUrl} alt={selectedOffer.model} width={150} height={150} className="rounded-lg object-cover" data-ai-hint="modern laptop" />
                         <div>
                             <h3 className="text-2xl font-bold text-primary">Rank #{selectedOffer.rank}</h3>
-                            <p className="text-lg font-semibold">Your Price: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</p>
-                            <p className="text-muted-foreground">The Rank #1 price for this model is <span className="font-semibold">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.rank1Price)}</span>.</p>
-                             <p className="text-muted-foreground">You are <span className="font-semibold text-destructive">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price - selectedOffer.rank1Price)}</span> away from the top spot.</p>
+                            <p className="text-lg font-semibold">Your Price: {new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</p>
+                            <p className="text-muted-foreground">The Rank #1 price for this model is <span className="font-semibold">{new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(selectedOffer.rank1Price)}</span>.</p>
+                             <p className="text-muted-foreground">You are <span className="font-semibold text-destructive">{new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(selectedOffer.price - selectedOffer.rank1Price)}</span> away from the top spot.</p>
                         </div>
                     </div>
                 </CardContent>

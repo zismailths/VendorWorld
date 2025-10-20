@@ -1,3 +1,4 @@
+
 "use client"
 
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts";
@@ -40,12 +41,12 @@ export function SalesChart() {
               tickFormatter={(value) => value.slice(0, 3)}
             />
             <YAxis 
-              tickFormatter={(value) => `₹${Number(value) / 1000}k`}
+              tickFormatter={(value) => `Rs ${Number(value) / 1000}k`}
             />
              <Tooltip
               cursor={false}
               content={<ChartTooltipContent
-                formatter={(value) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(Number(value))}
+                formatter={(value) => new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(Number(value))}
                 indicator="dot"
               />}
             />

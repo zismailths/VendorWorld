@@ -84,7 +84,7 @@ export default function StatsPage() {
                     />
                      <KeyMetricCard 
                         title="Lifetime Revenue" 
-                        value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(stats.lifetimeRevenue)} 
+                        value={new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR', minimumFractionDigits: 0 }).format(stats.lifetimeRevenue)} 
                         icon={IndianRupee} 
                         trend="All time revenue" 
                         iconColor="text-white/90"

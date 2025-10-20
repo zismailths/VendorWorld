@@ -88,9 +88,9 @@ export function OffersTable({ offers }: OffersTableProps) {
 
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-IN', {
+    return new Intl.NumberFormat('en-PK', {
       style: 'currency',
-      currency: 'INR',
+      currency: 'PKR',
       minimumFractionDigits: 0,
     }).format(value);
   };
@@ -187,13 +187,13 @@ export function OffersTable({ offers }: OffersTableProps) {
                 New Price
               </Label>
               <div className="col-span-3 relative">
-                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">₹</span>
+                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">Rs</span>
                 <Input
                   id="price"
                   type="number"
                   value={newPrice}
                   onChange={(e) => setNewPrice(e.target.value)}
-                  className="pl-7"
+                  className="pl-8"
                 />
               </div>
             </div>

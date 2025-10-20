@@ -263,9 +263,9 @@ export default function NewOfferPage() {
                         <FormItem>
                             <FormLabel>Your Price</FormLabel>
                             <div className="relative">
-                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">₹</span>
+                            <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground">Rs</span>
                             <FormControl>
-                                <Input type="number" placeholder="e.g. 150000" className="pl-7" {...field} />
+                                <Input type="number" placeholder="e.g. 150000" className="pl-8" {...field} />
                             </FormControl>
                             </div>
                             <FormMessage />
