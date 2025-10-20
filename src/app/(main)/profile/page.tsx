@@ -1,5 +1,7 @@
+
 "use client";
 
+import { useRef, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -30,6 +32,8 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfilePage() {
     const { toast } = useToast();
+    const [avatarPreview, setAvatarPreview] = useState<string>(userProfile.avatarUrl);
+    const fileInputRef = useRef<HTMLInputElement>(null);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
@@ -42,11 +46,28 @@ export default function ProfilePage() {
 
     function onSubmit(data: ProfileFormValues) {
         console.log("Profile updated:", data);
+        // In a real app, you would also handle the avatar file upload here
         toast({
             title: "Profile Updated",
             description: "Your profile information has been saved.",
         });
     }
+
+    const handleAvatarChangeClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setAvatarPreview(reader.result as string);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     return (
         <>
@@ -65,10 +86,17 @@ export default function ProfilePage() {
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                                  <div className="flex items-center gap-6">
                                     <Avatar className="h-20 w-20">
-                                        <AvatarImage src={userProfile.avatarUrl} alt={userProfile.name} data-ai-hint="person face" />
+                                        <AvatarImage src={avatarPreview} alt={userProfile.name} data-ai-hint="person face" />
                                         <AvatarFallback>{userProfile.name.charAt(0)}</AvatarFallback>
                                     </Avatar>
-                                    <Button variant="outline" type="button">Change Avatar</Button>
+                                    <Button variant="outline" type="button" onClick={handleAvatarChangeClick}>Change Avatar</Button>
+                                    <input
+                                        type="file"
+                                        ref={fileInputRef}
+                                        onChange={handleFileChange}
+                                        className="hidden"
+                                        accept="image/png, image/jpeg, image/gif"
+                                    />
                                  </div>
 
                                 <div className="grid md:grid-cols-2 gap-8">
