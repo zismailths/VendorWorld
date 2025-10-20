@@ -43,7 +43,6 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import type { SellerOffer } from '@/lib/types';
 import { cn } from '@/lib/utils';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '../ui/collapsible';
 import type { GroupedOffer } from '@/app/(main)/offers/page';
 import { format } from "date-fns";
 
@@ -58,6 +57,11 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
   const [deletingOffer, setDeletingOffer] = useState<SellerOffer | null>(null);
   const [hidingOffer, setHidingOffer] = useState<SellerOffer | null>(null);
   const [newPrice, setNewPrice] = useState('');
+  const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>({});
+
+  const toggleGroup = (modelId: string) => {
+    setExpandedGroups(prev => ({ ...prev, [modelId]: !prev[modelId] }));
+  };
 
   const handleEditClick = (offer: SellerOffer) => {
     setEditingOffer(offer);
@@ -164,16 +168,15 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                     </TableCell>
                 </TableRow>
             )}
-            {groupedOffers.map((group) => (
-              <Collapsible asChild key={group.modelId}>
-                <>
+            {groupedOffers.map((group) => {
+              const isExpanded = expandedGroups[group.modelId];
+              return (
+                <React.Fragment key={group.modelId}>
                   <TableRow className="font-semibold bg-card hover:bg-muted/50">
                       <TableCell>
-                        <CollapsibleTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8">
-                                <ChevronRight className="h-4 w-4 transition-transform [&[data-state=open]]:rotate-90" />
-                            </Button>
-                        </CollapsibleTrigger>
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => toggleGroup(group.modelId)}>
+                                <ChevronRight className={cn("h-4 w-4 transition-transform", isExpanded && "rotate-90")} />
+                          </Button>
                       </TableCell>
                       <TableCell>
                       <Image
@@ -203,7 +206,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                       </TableCell>
                       <TableCell className="text-right"></TableCell>
                   </TableRow>
-                  <CollapsibleContent asChild>
+                  {isExpanded && (
                       <TableRow className='bg-muted/50'>
                           <TableCell colSpan={9} className="p-0">
                               <Table>
@@ -288,10 +291,9 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                               </Table>
                           </TableCell>
                       </TableRow>
-                  </CollapsibleContent>
-                </>
-              </Collapsible>
-            ))}
+                  )}
+                </React.Fragment>
+            )})}
           </TableBody>
         </Table>
       </div>
