@@ -84,7 +84,7 @@ export default function NewOfferPage() {
 
   const quantity = form.watch("quantity");
 
-  useEffect(() => {
+   useEffect(() => {
     const newQuantity = Number(quantity) || 0;
     const currentCount = fields.length;
     if (newQuantity > 0 && newQuantity !== currentCount) {
@@ -93,7 +93,7 @@ export default function NewOfferPage() {
         }));
         replace(newFields);
     }
-  }, [quantity, fields, replace]);
+  }, [quantity, fields.length, replace]);
 
 
   function onSubmit(data: OfferFormValues) {
@@ -154,7 +154,7 @@ export default function NewOfferPage() {
         <CardDescription>Choose an option below to get started.</CardDescription>
       </CardHeader>
       <CardContent className="grid md:grid-cols-2 gap-6">
-        <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center justify-center text-center" onClick={() => { /* Implement QR Scan */ }}>
+        <Button variant="outline" className="h-auto p-6 flex flex-col gap-2 items-center justify-center text-center" onClick={() => router.push('/qr-scan')}>
           <QrCode className="h-10 w-10 text-primary" />
           <span className="font-semibold text-lg text-primary">Scan QR Code</span>
           <span className="text-sm text-muted-foreground">Faster for multiple entries</span>
