@@ -13,6 +13,7 @@ import { MoreHorizontal, PanelLeft, QrCode, PlusCircle } from "lucide-react";
 import { MainNav } from '@/components/main-nav';
 import { Logo } from '@/components/icons';
 import { userProfile } from "@/lib/data";
+import Link from "next/link";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -54,19 +55,22 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        <div className="flex flex-col">
-            <header className="flex items-center justify-between gap-4 p-6 pb-4 border-b">
+        <div className="flex flex-col min-h-screen">
+            <header className="flex items-center justify-between gap-4 p-4 border-b">
                  <div className="flex items-center gap-4">
                     <SidebarTrigger className="md:hidden" />
+                    <h1 className="text-xl font-semibold font-headline tracking-tight">VendorWorld</h1>
                  </div>
                  <div className="flex shrink-0 items-center gap-2">
-                    <Button variant="outline">
+                    <Button variant="default">
                         <QrCode className="mr-2 h-4 w-4" />
                         QR Scan
                     </Button>
-                    <Button variant="gradient">
-                        <PlusCircle className="mr-2 h-4 w-4" />
-                        Add Product
+                     <Button variant="success" asChild>
+                        <Link href="/new-offer">
+                            <PlusCircle className="mr-2 h-4 w-4" />
+                            Add Product
+                        </Link>
                     </Button>
                 </div>
             </header>
