@@ -22,6 +22,7 @@ export default function DashboardPage() {
             Icon={Laptop}
              description="+12% from last month"
              iconColor="text-sky-500"
+             className="bg-sky-50 hover:bg-sky-100 dark:bg-sky-900/50 dark:hover:bg-sky-900"
           />
           <SummaryCard
             title="Active Listings"
@@ -29,6 +30,7 @@ export default function DashboardPage() {
             Icon={HandCoins}
             description="+8% from last month"
             iconColor="text-emerald-500"
+            className="bg-emerald-50 hover:bg-emerald-100 dark:bg-emerald-900/50 dark:hover:bg-emerald-900"
           />
            <SummaryCard
             title="Average Rank"
@@ -36,6 +38,7 @@ export default function DashboardPage() {
             Icon={BarChart}
             description="-2 positions"
             iconColor="text-amber-500"
+            className="bg-amber-50 hover:bg-amber-100 dark:bg-amber-900/50 dark:hover:bg-amber-900"
           />
           <SummaryCard
             title="Monthly Revenue"
@@ -43,6 +46,7 @@ export default function DashboardPage() {
             Icon={IndianRupee}
             description="+18% from last month"
             iconColor="text-violet-500"
+            className="bg-violet-50 hover:bg-violet-100 dark:bg-violet-900/50 dark:hover:bg-violet-900"
           />
         </div>
 

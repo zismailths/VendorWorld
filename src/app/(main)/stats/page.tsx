@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const KeyMetricCard = ({ title, value, icon: Icon, trend, iconColor, className }: { title: string, value: string, icon: React.ElementType, trend: string, iconColor?: string, className?: string }) => (
-    <Card className={cn("text-white", className)}>
+    <Card className={cn("text-white transition-colors", className)}>
         <CardHeader className="pb-2">
             <CardTitle className="text-base font-medium flex items-center justify-between">
                 <span>{title}</span>
@@ -48,7 +48,7 @@ export default function StatsPage() {
                         icon={Target} 
                         trend="vs. #2.5 last month" 
                         iconColor="text-white/90" 
-                        className="bg-amber-500"
+                        className="bg-amber-400 hover:bg-amber-500"
                     />
                     <KeyMetricCard 
                         title="Offers Sold" 
@@ -56,7 +56,7 @@ export default function StatsPage() {
                         icon={TrendingUp} 
                         trend="+5 from last month" 
                         iconColor="text-white/90" 
-                        className="bg-emerald-500"
+                        className="bg-emerald-400 hover:bg-emerald-500"
                     />
                     <KeyMetricCard 
                         title="Offers Withdrawn" 
@@ -64,7 +64,7 @@ export default function StatsPage() {
                         icon={TrendingDown} 
                         trend="-2 from last month" 
                         iconColor="text-white/90"
-                        className="bg-red-500"
+                        className="bg-red-400 hover:bg-red-500"
                     />
                     <KeyMetricCard 
                         title="Total Active Offers" 
@@ -72,7 +72,7 @@ export default function StatsPage() {
                         icon={Laptop} 
                         trend="from all time" 
                         iconColor="text-white/90"
-                        className="bg-sky-500"
+                        className="bg-sky-400 hover:bg-sky-500"
                     />
                     <KeyMetricCard 
                         title="Laptops Sold" 
@@ -80,7 +80,7 @@ export default function StatsPage() {
                         icon={HandCoins} 
                         trend="All time sales" 
                         iconColor="text-white/90"
-                        className="bg-violet-500"
+                        className="bg-violet-400 hover:bg-violet-500"
                     />
                      <KeyMetricCard 
                         title="Lifetime Revenue" 
@@ -88,7 +88,7 @@ export default function StatsPage() {
                         icon={IndianRupee} 
                         trend="All time revenue" 
                         iconColor="text-white/90"
-                        className="bg-green-500"
+                        className="bg-green-400 hover:bg-green-500"
                     />
                 </div>
                 <div className="grid gap-6 md:grid-cols-2">
