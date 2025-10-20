@@ -159,7 +159,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
             )}
             {groupedOffers.map((group) => (
               <Collapsible asChild key={group.modelId}>
-                <tbody>
+                <>
                   <TableRow className="font-semibold bg-card hover:bg-muted/50">
                       <TableCell>
                         <CollapsibleTrigger asChild>
@@ -280,7 +280,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                           </TableCell>
                       </TableRow>
                   </CollapsibleContent>
-                </tbody>
+                </>
               </Collapsible>
             ))}
           </TableBody>
