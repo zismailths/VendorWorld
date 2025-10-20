@@ -3,6 +3,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useContext } from 'react';
 import {
   SidebarMenu,
   SidebarMenuItem,
@@ -20,6 +21,7 @@ import {
   Bell,
   Settings,
 } from 'lucide-react';
+import { AlertContext } from '@/context/alert-context';
 
 const mainNavItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -32,13 +34,14 @@ const analyticsNavItems = [
     { href: '/competitors', label: 'Competitors', icon: Users },
 ];
 
-const accountNavItems = [
-    { href: '/notifications', label: 'Alerts', icon: Bell, badge: '3' },
-    { href: '/profile', label: 'Settings', icon: Settings },
-];
-
 export function MainNav() {
   const pathname = usePathname();
+  const { alerts } = useContext(AlertContext);
+
+  const accountNavItems = [
+    { href: '/notifications', label: 'Alerts', icon: Bell, badge: alerts.length > 0 ? alerts.length.toString() : undefined },
+    { href: '/profile', label: 'Settings', icon: Settings },
+];
 
   return (
     <>
