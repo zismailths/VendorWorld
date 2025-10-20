@@ -9,7 +9,7 @@ import {
   SidebarTrigger,
 } from "@/components/ui/sidebar";
 import { Button } from "@/components/ui/button";
-import { MoreHorizontal, PanelLeft } from "lucide-react";
+import { MoreHorizontal, PanelLeft, QrCode, PlusCircle } from "lucide-react";
 import { MainNav } from '@/components/main-nav';
 import { Logo } from '@/components/icons';
 import { userProfile } from "@/lib/data";
@@ -54,7 +54,26 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
         </SidebarFooter>
       </Sidebar>
       <SidebarInset>
-        {children}
+        <div className="flex flex-col">
+            <header className="flex items-center justify-between gap-4 p-6 pb-4 border-b">
+                 <div className="flex items-center gap-4">
+                    <SidebarTrigger className="md:hidden" />
+                 </div>
+                 <div className="flex shrink-0 items-center gap-2">
+                    <Button variant="outline">
+                        <QrCode className="mr-2 h-4 w-4" />
+                        QR Scan
+                    </Button>
+                    <Button variant="gradient">
+                        <PlusCircle className="mr-2 h-4 w-4" />
+                        Add Product
+                    </Button>
+                </div>
+            </header>
+            <div className="flex-1">
+                {children}
+            </div>
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

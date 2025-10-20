@@ -1,10 +1,9 @@
-import { Laptop, IndianRupee, HandCoins, QrCode, PlusCircle } from "lucide-react";
+import { Laptop, IndianRupee, HandCoins } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { SummaryCard } from "@/components/dashboard/summary-card";
 import { AlertsPanel } from "@/components/dashboard/alerts-panel";
 import { SalesChart } from "@/components/dashboard/sales-chart";
 import { stats } from "@/lib/data";
-import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
   return (
@@ -12,16 +11,7 @@ export default function DashboardPage() {
       <PageHeader
         title="Dashboard"
         description="Here's a summary of your seller activity."
-      >
-        <Button variant="outline">
-          <QrCode className="mr-2 h-4 w-4" />
-          QR Scan
-        </Button>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          Add Product
-        </Button>
-      </PageHeader>
+      />
       <main className="p-6 pt-0 grid gap-6">
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           <SummaryCard

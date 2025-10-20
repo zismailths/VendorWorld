@@ -3,8 +3,9 @@
 import { PageHeader } from "@/components/shared/page-header";
 import { PerformanceChart } from "@/components/stats/performance-chart";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { TrendingUp, TrendingDown, Target } from "lucide-react";
+import { TrendingUp, TrendingDown, Target, RefreshCw, Download } from "lucide-react";
 import { stats } from "@/lib/data";
+import { Button } from "@/components/ui/button";
 
 const KeyMetricCard = ({ title, value, icon: Icon, trend }: { title: string, value: string, icon: React.ElementType, trend: string }) => (
     <Card>
@@ -27,7 +28,16 @@ export default function StatsPage() {
             <PageHeader
                 title="Performance Statistics"
                 description="Analyze your sales history and offer performance."
-            />
+            >
+                <Button variant="outline">
+                    <RefreshCw className="mr-2 h-4 w-4" />
+                    Refresh
+                </Button>
+                <Button>
+                    <Download className="mr-2 h-4 w-4" />
+                    Export
+                </Button>
+            </PageHeader>
             <main className="p-6 pt-0 grid gap-6">
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     <KeyMetricCard title="Average Rank" value={`#${stats.averageRank}`} icon={Target} trend="vs. #2.5 last month" />
