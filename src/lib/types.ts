@@ -24,7 +24,7 @@ export type LaptopModel = {
 
 export type Alert = {
   id: string;
-  type: 'RANK_1' | 'UNDERCUT';
+  type: 'RANK_1' | 'UNDERCUT' | 'NEW_OFFER';
   message: string;
   createdAt: string;
 };

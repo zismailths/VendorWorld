@@ -184,13 +184,19 @@ export const sellerOffers: SellerOffer[] = [
 
 export const alerts: Alert[] = [
     {
-        id: '1',
+        id: 'alert-3',
+        type: 'NEW_OFFER',
+        message: 'Your new listing for HP Spectre x360 14 is now active.',
+        createdAt: new Date(Date.now() - 60000).toISOString(), // 1 minute ago
+    },
+    {
+        id: 'alert-1',
         type: 'RANK_1',
         message: 'Your offer for MacBook Pro 16" is now Rank #1!',
         createdAt: new Date(Date.now() - 3600000).toISOString(), // 1 hour ago
     },
     {
-        id: '2',
+        id: 'alert-2',
         type: 'UNDERCUT',
         message: 'Your Dell XPS 15 offer was undercut by Rs 2,000.',
         createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
