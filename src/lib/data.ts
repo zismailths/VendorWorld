@@ -201,6 +201,36 @@ export const alerts: Alert[] = [
         message: 'Your Dell XPS 15 offer was undercut by Rs 2,000.',
         createdAt: new Date(Date.now() - 86400000).toISOString(), // 1 day ago
     },
+    {
+        id: 'alert-4',
+        type: 'NEW_OFFER',
+        message: 'A new listing for MacBook Pro 14" M3 is now active.',
+        createdAt: new Date(Date.now() - (2 * 86400000)).toISOString(), // 2 days ago
+    },
+    {
+        id: 'alert-5',
+        type: 'UNDERCUT',
+        message: 'Your MacBook Pro 16" M3 Max offer was undercut by Rs 1,500.',
+        createdAt: new Date(Date.now() - (3 * 86400000)).toISOString(), // 3 days ago
+    },
+    {
+        id: 'alert-6',
+        type: 'RANK_1',
+        message: 'Congratulations! Your Dell XPS 15 is now the top-ranked offer.',
+        createdAt: new Date(Date.now() - (4 * 86400000)).toISOString(), // 4 days ago
+    },
+    {
+        id: 'alert-7',
+        type: 'NEW_OFFER',
+        message: 'You have successfully listed a new MacBook Air 13" M2.',
+        createdAt: new Date(Date.now() - (5 * 86400000)).toISOString(), // 5 days ago
+    },
+    {
+        id: 'alert-8',
+        type: 'UNDERCUT',
+        message: 'A competitor has lowered their price on the HP Spectre x360 14.',
+        createdAt: new Date(Date.now() - (6 * 86400000)).toISOString(), // 6 days ago
+    },
 ];
 
 export const salesData = [
