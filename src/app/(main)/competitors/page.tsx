@@ -1,9 +1,28 @@
+
+"use client";
+
+import { useState } from "react";
 import { PageHeader } from "@/components/shared/page-header";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Download, RefreshCw } from "lucide-react";
+import { Download, RefreshCw, ChevronsUpDown } from "lucide-react";
+import { sellerOffers } from "@/lib/data";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import type { SellerOffer } from "@/lib/types";
+import Image from "next/image";
 
 export default function CompetitorsPage() {
+  const [selectedOffer, setSelectedOffer] = useState<SellerOffer | null>(
+    sellerOffers.find((o) => o.status === "ACTIVE") || null
+  );
+
+  const activeOffers = sellerOffers.filter((o) => o.status === "ACTIVE");
+
   return (
     <>
       <PageHeader
@@ -11,28 +30,73 @@ export default function CompetitorsPage() {
         description="Analyze the competitive landscape for your products."
       >
         <Button variant="outline">
-            <RefreshCw className="mr-2 h-4 w-4" />
-            Refresh
+          <RefreshCw className="mr-2 h-4 w-4" />
+          Refresh
         </Button>
         <Button>
-            <Download className="mr-2 h-4 w-4" />
-            Export
+          <Download className="mr-2 h-4 w-4" />
+          Export
         </Button>
       </PageHeader>
-      <main className="p-6 pt-0">
+      <main className="p-6 pt-0 space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Competitor Analysis</CardTitle>
+            <CardTitle>Select Your Product</CardTitle>
             <CardDescription>
-              This feature is coming soon. You'll be able to see how your offers stack up against the competition.
+              Choose one of your active offers to see how it stacks up against the competition.
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="flex items-center justify-center h-64 bg-muted/50 rounded-lg">
-                <p className="text-muted-foreground">Competitor data will appear here.</p>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="w-full md:w-[300px] justify-between">
+                  <span>{selectedOffer ? selectedOffer.model : "Select an offer"}</span>
+                  <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-full md:w-[300px]">
+                {activeOffers.map((offer) => (
+                  <DropdownMenuItem key={offer.id} onSelect={() => setSelectedOffer(offer)}>
+                    {offer.model} ({offer.serial})
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
           </CardContent>
         </Card>
+
+        {selectedOffer ? (
+            <Card>
+                <CardHeader>
+                    <CardTitle>Competitive Analysis for: <span className="text-primary">{selectedOffer.model}</span></CardTitle>
+                    <CardDescription>
+                    Your current rank is <span className="font-bold text-primary">#{selectedOffer.rank}</span> with a price of <span className="font-bold text-primary">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</span>.
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left p-8 bg-muted/50 rounded-lg">
+                        <Image src={selectedOffer.imageUrl} alt={selectedOffer.model} width={150} height={150} className="rounded-lg object-cover" data-ai-hint="modern laptop" />
+                        <div>
+                            <h3 className="text-2xl font-bold text-primary">Rank #{selectedOffer.rank}</h3>
+                            <p className="text-lg font-semibold">Your Price: {new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price)}</p>
+                            <p className="text-muted-foreground">The Rank #1 price for this model is <span className="font-semibold">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.rank1Price)}</span>.</p>
+                             <p className="text-muted-foreground">You are <span className="font-semibold text-destructive">{new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(selectedOffer.price - selectedOffer.rank1Price)}</span> away from the top spot.</p>
+                        </div>
+                    </div>
+                </CardContent>
+            </Card>
+        ) : (
+             <Card>
+                <CardHeader>
+                    <CardTitle>No Offer Selected</CardTitle>
+                </CardHeader>
+                <CardContent>
+                    <div className="flex items-center justify-center h-64 bg-muted/50 rounded-lg">
+                        <p className="text-muted-foreground">Select an active offer to see competitor data.</p>
+                    </div>
+                </CardContent>
+             </Card>
+        )}
       </main>
     </>
   );

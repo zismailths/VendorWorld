@@ -1,9 +1,10 @@
-import { Laptop, IndianRupee, HandCoins } from "lucide-react";
+import { Laptop, IndianRupee, HandCoins, BarChart } from "lucide-react";
 import { PageHeader } from "@/components/shared/page-header";
 import { SummaryCard } from "@/components/dashboard/summary-card";
 import { AlertsPanel } from "@/components/dashboard/alerts-panel";
 import { SalesChart } from "@/components/dashboard/sales-chart";
 import { stats } from "@/lib/data";
+import { PerformanceChart } from "@/components/stats/performance-chart";
 
 export default function DashboardPage() {
   return (
@@ -19,24 +20,28 @@ export default function DashboardPage() {
             value={stats.totalActiveOffers.toString()}
             Icon={Laptop}
              description="+12% from last month"
+             iconColor="text-sky-500"
           />
           <SummaryCard
             title="Active Listings"
             value={stats.totalLaptopsSold.toString()}
             Icon={HandCoins}
             description="+8% from last month"
+            iconColor="text-emerald-500"
           />
            <SummaryCard
             title="Average Rank"
             value={`#${stats.averageRank}`}
-            Icon={IndianRupee}
+            Icon={BarChart}
             description="-2 positions"
+            iconColor="text-amber-500"
           />
           <SummaryCard
             title="Monthly Revenue"
             value={new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', minimumFractionDigits: 0 }).format(stats.lifetimeRevenue)}
             Icon={IndianRupee}
             description="+18% from last month"
+            iconColor="text-violet-500"
           />
         </div>
 
@@ -45,9 +50,14 @@ export default function DashboardPage() {
                 <SalesChart />
             </div>
             <div className="lg:col-span-1">
-                <AlertsPanel />
+                <PerformanceChart />
             </div>
         </div>
+         <div className="grid gap-6 lg:grid-cols-3">
+             <div className="lg:col-span-2">
+                <AlertsPanel />
+            </div>
+         </div>
       </main>
     </>
   );

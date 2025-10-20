@@ -32,7 +32,7 @@ const analyticsNavItems = [
 ];
 
 const accountNavItems = [
-    { href: '/notifications', label: 'Notifications', icon: Bell, badge: '3' },
+    { href: '/notifications', label: 'Alerts', icon: Bell, badge: '3' },
     { href: '/profile', label: 'Settings', icon: Settings },
 ];
 
@@ -96,6 +96,11 @@ export function MainNav() {
                 <Link href={item.href}>
                   <item.icon />
                   <span>{item.label}</span>
+                  {item.badge && (
+                     <span className="ml-auto inline-flex h-5 w-5 items-center justify-center rounded-full bg-destructive text-xs font-medium text-destructive-foreground">
+                        {item.badge}
+                     </span>
+                  )}
                 </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>

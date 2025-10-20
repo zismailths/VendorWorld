@@ -9,11 +9,11 @@ const alertIcons = {
   UNDERCUT: <AlertTriangle className="h-5 w-5 text-destructive" />,
 };
 
-export default function NotificationsPage() {
+export default function AlertsPage() {
   return (
     <>
       <PageHeader
-        title="Notifications"
+        title="Alerts"
         description="Review all your recent account and offer alerts."
       />
       <main className="p-6 pt-0">
@@ -37,7 +37,7 @@ export default function NotificationsPage() {
                 ))}
                 {alerts.length === 0 && (
                     <div className="text-center text-muted-foreground py-8">
-                        No new notifications.
+                        No new alerts.
                     </div>
                 )}
                 </div>

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Pie, PieChart } from "recharts"
+import { Pie, PieChart, Cell } from "recharts"
 
 import {
   Card,
@@ -23,6 +23,8 @@ const chartData = [
   { type: "Sold", count: stats.soldVsWithdrawn.sold, fill: "var(--color-sold)" },
   { type: "Withdrawn", count: stats.soldVsWithdrawn.withdrawn, fill: "var(--color-withdrawn)" },
 ]
+
+const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))"];
 
 const chartConfig = {
   count: {
@@ -61,7 +63,11 @@ export function PerformanceChart() {
               nameKey="type"
               innerRadius={60}
               strokeWidth={5}
-            />
+            >
+                {chartData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                ))}
+            </Pie>
              <ChartLegend
               content={<ChartLegendContent nameKey="type" />}
               className="-mt-4"
