@@ -77,6 +77,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
     // In a real app, these would come from the offer data itself.
     const offerToCopy = {
       ...offer,
+      serial: offer.serialNumbers[0], // For backward compatibility with autofill
       ram: "16gb",
       storage: "512gb",
       gpu: "Integrated Graphics",
@@ -160,7 +161,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
               </TableBody>
             )}
             {groupedOffers.map((group) => (
-              <Collapsible asChild key={group.modelId} asChild>
+              <Collapsible asChild key={group.modelId}>
                 <TableBody>
                   <TableRow className="font-semibold bg-card hover:bg-muted/50">
                       <TableCell>
@@ -205,7 +206,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                               <Table>
                                   <TableHeader>
                                       <TableRow className="hover:bg-transparent">
-                                        <TableHead>Serial Number</TableHead>
+                                        <TableHead>Serial Numbers</TableHead>
                                         <TableHead>Upload Date</TableHead>
                                         <TableHead className="text-right">Price</TableHead>
                                         <TableHead className="text-center">Stock Left</TableHead>
@@ -218,7 +219,9 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
                                     {group.offers.map((offer) => (
                                         <TableRow key={offer.id} className="hover:bg-muted">
                                             <TableCell>
-                                                <div className="text-sm text-muted-foreground font-mono">{offer.serial}</div>
+                                                <div className="text-sm text-muted-foreground font-mono flex flex-col">
+                                                  {offer.serialNumbers.map(serial => <span key={serial}>{serial}</span>)}
+                                                </div>
                                             </TableCell>
                                             <TableCell className="text-sm text-muted-foreground">
                                                 {format(new Date(offer.createdAt), "dd MMM yyyy")}
@@ -295,7 +298,7 @@ export function OffersTable({ groupedOffers }: OffersTableProps) {
           <DialogHeader>
             <DialogTitle className="font-headline">Edit Offer Price</DialogTitle>
             <DialogDescription>
-              Update the price for {editingOffer?.model} ({editingOffer?.serial}).
+              Update the price for {editingOffer?.model} ({editingOffer?.serialNumbers[0]}).
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">

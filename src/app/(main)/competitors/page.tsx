@@ -65,7 +65,7 @@ export default function CompetitorsPage() {
                     <DropdownMenuContent className="w-full md:w-[300px]">
                         {activeOffers.map((offer) => (
                         <DropdownMenuItem key={offer.id} onSelect={() => setSelectedOffer(offer)}>
-                            {offer.model} ({offer.serial})
+                            {offer.model} ({offer.serialNumbers[0]})
                         </DropdownMenuItem>
                         ))}
                     </DropdownMenuContent>
@@ -94,7 +94,7 @@ export default function CompetitorsPage() {
                     <DropdownMenuContent>
                         {activeOffers.map((offer) => (
                         <DropdownMenuItem key={offer.id} onSelect={() => setSelectedOffer(offer)}>
-                            {offer.model} ({offer.serial})
+                            {offer.model} ({offer.serialNumbers[0]})
                         </DropdownMenuItem>
                         ))}
                     </DropdownMenuContent>

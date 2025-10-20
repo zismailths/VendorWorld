@@ -4,7 +4,7 @@ export type SellerOffer = {
   isSellerOffer?: boolean;
   model: string;
   modelId: string;
-  serial: string;
+  serialNumbers: string[];
   price: number;
   quantity?: number;
   rank: number;

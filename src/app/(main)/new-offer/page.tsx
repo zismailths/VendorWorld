@@ -51,7 +51,7 @@ const offerFormSchema = z.object({
 
 type OfferFormValues = z.infer<typeof offerFormSchema>;
 
-type CopiedOffer = SellerOffer & { ram?: string, storage?: string, gpu?: string, screenSize?: string };
+type CopiedOffer = Omit<SellerOffer, 'serialNumbers'> & { serial: string, ram?: string, storage?: string, gpu?: string, screenSize?: string };
 
 const defaultValues: OfferFormValues = {
   modelId: "",
@@ -443,5 +443,3 @@ export default function NewOfferPage() {
     </>
   );
 }
-
-    
