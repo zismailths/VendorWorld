@@ -34,8 +34,8 @@ export function SalesChart() {
           <BarChart data={salesData} accessibilityLayer>
             <defs>
                 <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="var(--color-revenue)" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="var(--color-revenue)" stopOpacity={0.2}/>
+                    <stop offset="5%" stopColor="hsl(var(--primary))" stopOpacity={0.9}/>
+                    <stop offset="95%" stopColor="hsl(217, 91%, 75%)" stopOpacity={0.8}/>
                 </linearGradient>
             </defs>
             <CartesianGrid vertical={false} />
@@ -63,4 +63,3 @@ export function SalesChart() {
     </Card>
   );
 }
-
