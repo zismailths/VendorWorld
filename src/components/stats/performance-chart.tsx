@@ -24,19 +24,17 @@ const chartData = [
   { type: "Withdrawn", count: stats.soldVsWithdrawn.withdrawn, fill: "var(--color-withdrawn)" },
 ]
 
-const COLORS = ["hsl(var(--chart-1))", "hsl(var(--chart-2))"];
-
 const chartConfig = {
   count: {
     label: "Count",
   },
   sold: {
     label: "Sold",
-    color: "hsl(var(--chart-1))",
+    color: "hsl(142.1 76.2% 36.3%)", // Green
   },
   withdrawn: {
     label: "Withdrawn",
-    color: "hsl(var(--chart-2))",
+    color: "hsl(0 84.2% 60.2%)", // Red
   },
 }
 
@@ -64,8 +62,8 @@ export function PerformanceChart() {
               innerRadius={60}
               strokeWidth={5}
             >
-                {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                {chartData.map((entry) => (
+                    <Cell key={`cell-${entry.type}`} fill={entry.fill} />
                 ))}
             </Pie>
              <ChartLegend
