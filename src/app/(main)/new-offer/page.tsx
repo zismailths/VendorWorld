@@ -228,7 +228,7 @@ export default function NewOfferPage() {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                    <Button type="submit" className="bg-gradient-to-r from-primary to-accent text-primary-foreground">Upload Product</Button>
+                    <Button type="submit">Upload Product</Button>
                 </div>
               </form>
             </Form>
