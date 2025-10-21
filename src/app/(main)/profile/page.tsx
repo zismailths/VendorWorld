@@ -86,7 +86,7 @@ export default function ProfilePage() {
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                                  <div className="flex items-center gap-6">
                                     <Avatar className="h-20 w-20">
-                                        <AvatarImage src={avatarPreview} alt={userProfile.name} data-ai-hint="person face" />
+                                        <AvatarImage src={avatarPreview} alt={userProfile.name} />
                                         <AvatarFallback>{userProfile.name.charAt(0)}</AvatarFallback>
                                     </Avatar>
                                     <Button variant="outline" type="button" onClick={handleAvatarChangeClick}>Change Avatar</Button>

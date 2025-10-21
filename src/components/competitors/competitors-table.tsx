@@ -63,7 +63,6 @@ export function CompetitorsTable({ offers }: CompetitorsTableProps) {
                             width={64}
                             height={48}
                             className="rounded-md object-cover"
-                            data-ai-hint="modern laptop"
                         />
                         </TableCell>
                         <TableCell>

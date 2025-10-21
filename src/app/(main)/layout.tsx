@@ -54,7 +54,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <SidebarFooter className="mt-auto border-t border-sidebar-border p-3">
             <div className="flex items-center gap-3">
               <Avatar className="size-9">
-                <AvatarImage src={userProfile.avatarUrl} alt={userProfile.name} data-ai-hint="person face" />
+                <AvatarImage src={userProfile.avatarUrl} alt={userProfile.name} />
                 <AvatarFallback>{userProfile.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="flex-1 overflow-hidden group-data-[state=expanded]:block hidden">

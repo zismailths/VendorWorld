@@ -3,25 +3,25 @@
     {
       "id": "user-avatar",
       "description": "User avatar for the sidebar",
-      "imageUrl": "/images/user-avatar.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1725028748781-7adb1df9a943?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxwZXJzb24lMjBmYWNlfGVufDB8fHx8MTc2MDk4MTIyOHww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "person face"
     },
     {
       "id": "laptop-1",
       "description": "A modern laptop on a desk",
-      "imageUrl": "/images/laptop-1.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1743793055779-bc1fa45b6e26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtb2Rlcm4lMjBsYXB0b3B8ZW58MHx8fHwxNzYwOTMzODY1fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "modern laptop"
     },
     {
       "id": "laptop-2",
       "description": "Side view of a laptop",
-      "imageUrl": "/images/laptop-2.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1740721455292-e5cd29544381?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bGFwdG9wJTIwc2lkZXxlbnwwfHx8fDE3NjA5NzAwNjl8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "laptop side"
     },
     {
       "id": "laptop-3",
       "description": "Top down view of a laptop",
-      "imageUrl": "/images/laptop-3.jpg",
+      "imageUrl": "https://images.unsplash.com/photo-1701760211215-4e6db83f8148?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxsYXB0b3AlMjB0b3B8ZW58MHx8fHwxNzYwOTIzMDQ0fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "laptop top"
     }
   ]
