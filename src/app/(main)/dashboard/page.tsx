@@ -23,7 +23,7 @@ export default function DashboardPage() {
             Icon={Laptop}
              description="+12% from last month"
              iconColor="text-white/90"
-             className="bg-red-400 text-white hover:bg-red-500"
+             className="bg-sky-400 text-white hover:bg-sky-500"
           />
           <SummaryCard
             title="Active Listings"
